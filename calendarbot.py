@@ -1,20 +1,25 @@
-import logging
-logging.basicConfig(level=logging.DEBUG)
+"""
+Arshita Sandhiparthi
 
+Main
+"""
+
+import logging
 import os
 from slack import WebClient
-from slack.errors import SlackApiError
+import event
 
-#slack_token = os.environ["SLACK_BOT_TOKEN"]
-#Random added change to test deployment
+logging.basicConfig(level=logging.DEBUG)
 
-slack_token = 'xoxb-1101498483268-1119164442736-5Bf1uHbCNZR7ClG82pqrIUXn'
-client = WebClient(token=slack_token)
 
-try:
-  response = client.chat_postMessage(
-    channel="general",
-    text="Hello, this is your @Calendarbot"
-  )
-except SlackApiError as e:
-  assert e.response["error"]
+def main():
+    # slack_token = os.environ["SLACK_BOT_TOKEN"]
+
+    slack_token = 'xoxb-1101498483268-1119164442736-5Bf1uHbCNZR7ClG82pqrIUXn'
+    client = WebClient(token=slack_token)
+
+    response = client.chat_postMessage(channel="general", text="Hello, this is your @Calendarbot. :calendar:")
+
+
+if __name__ == "__main__":
+    main()
