@@ -1,1 +1,1 @@
-web: python3 calendarbot.py
+web: python3 app.py
