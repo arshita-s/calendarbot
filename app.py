@@ -7,11 +7,11 @@ import logging
 import os
 import slack
 import event
-from flask import abort, Flask, make_response, request
+from bottle import run, post,request,response,route
+from urllib import parse
 
 SLACK_VERIFICATION_TOKEN = 'lhbdgYshgpvXAtiqQ733M55e'
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
-app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 # initializing clients
@@ -42,23 +42,20 @@ rtm_client.start()
 
 # Slash commands
 
-@app.route('/event', methods=['POST'])
+"""
+@post('/event')
 def event():
-    info = request.form
-
-    channelMsg = client.chat_postMessage(
-        channel="#" + info["channel_name"],
-        text="Would you like to create an event?"
-    )
-    return make_response("", 200)
-
-
-def verify_slack_token(request_token):
-    if SLACK_VERIFICATION_TOKEN != request_token:
-        print("Error: invalid verification token!")
-        print("Received {} but was expecting {}".format(request_token, SLACK_VERIFICATION_TOKEN))
-        return make_response("Request contains invalid Slack verification token", 403)
+    return "Would you like to create an event?"
+"""
+@route('/event',method="post")
+def event():
+    postdata = request.forms.get("text")
+    output_path = str("sndwserv:/" + parse.quote(postdata))
+    package = {"response_type": "in_channel", "text": "{}".format(output_path)}
+    response.content_type = 'application/json'
+    return package
 
 
 if __name__ == "__main__":
-    app.run()
+    port_config = int(os.getenv('PORT', 5000))
+    run(host='0.0.0.0', port=port_config)
