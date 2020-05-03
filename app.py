@@ -57,5 +57,5 @@ def event():
 
 
 if __name__ == "__main__":
-    port_config = int(os.getenv('PORT', 5000))
+    port_config = int(os.getenv('PORT', 3000))
     run(host='0.0.0.0', port=port_config)
