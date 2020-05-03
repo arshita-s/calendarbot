@@ -29,8 +29,6 @@ def main():
 
     response = client.chat_postMessage(channel="general", text="Hello, this is your " + get_mention(botID) + ". :calendar:")
     rtm_client.start()
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port, debug=True)
 
 
 def get_mention(user):
