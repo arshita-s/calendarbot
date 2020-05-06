@@ -10,6 +10,8 @@ from flask import Flask, request, make_response
 from slackeventsapi import SlackEventAdapter
 import json
 
+events = list()
+
 SLACK_VERIFICATION_TOKEN = 'lhbdgYshgpvXAtiqQ733M55e'
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_SIGNING_SECRET = '6ee8492929d135bf1ba948350114e6f4'
@@ -38,6 +40,8 @@ def greeting():
 
 
 # Slash commands
+
+# Event command will prompt the user for a choice and open up the corresponding modal
 @app.route('/event', methods=['POST'])
 def event_handler():
     client.chat_postMessage(
@@ -70,16 +74,19 @@ def event_handler():
 
 
 # Real time events
+
+# Handles button clicks
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
-    actions = msg_action.get("actions")[0]
-    if msg_action.get("type") == "block_actions" and 'Make New Event' in actions['text']['text']:
+
+    # make new event
+    if msg_action.get("type") == "block_actions" and 'Make New Event':
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view={
                 "type": "modal",
-                "callback_id": "modal-id",
+                "callback_id": "make-new-event",
                 "title": {
                     "type": "plain_text",
                     "text": "Create a New Event"
@@ -95,9 +102,11 @@ def action_handler():
                 "blocks": [
                     {
                         "type": "input",
+                        "block_id": "set-date",
                         "element": {
                             "type": "datepicker",
                             "initial_date": "1990-4-28",
+                            "action_id": "date-set",
                             "placeholder": {
                                 "type": "plain_text",
                                 "text": "Select a Date",
@@ -114,7 +123,8 @@ def action_handler():
                 ]
             }
         )
-        # client.chat_update(channel=cid, text="Creating your event...")
+    elif msg_action.get("type") == "view_submission": # events saved as (name, date, start time, end time, category)
+        events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
     return make_response("", 200)
 
 
