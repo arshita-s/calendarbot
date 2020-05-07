@@ -42,7 +42,7 @@ def greeting():
 # Slash commands
 
 # Event command will prompt the user for a choice and open up the corresponding modal
-@app.route('/event', methods=['POST'])
+#@app.route('/event', methods=['POST'])
 def event_handler():
     client.chat_postMessage(
         channel='general',
@@ -76,7 +76,7 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
-@app.route('/slack/actions', methods=['POST'])
+#@app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
     print(msg_action.get("actions")[0])
@@ -138,4 +138,4 @@ def ask(payload):
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run()
