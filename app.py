@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 slack_token = SLACK_BOT_TOKEN
 client = slack.WebClient(token=slack_token)
-slack_events_adapter = SlackEventAdapter(SLACK_SIGNING_SECRET, "/slack/events", app)
+#slack_events_adapter = SlackEventAdapter(SLACK_SIGNING_SECRET, "/slack/events", app)
 
 
 # find the id of the bot
@@ -32,7 +32,7 @@ def get_mention(user):
 
 
 # greeting message from calendarbot
-@slack_events_adapter.on('team_join')
+#@slack_events_adapter.on('team_join')
 def greeting():
     botID = 'U0133U2QXCL'
     client.chat_postMessage(channel="general",
@@ -79,7 +79,7 @@ def event_handler():
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
-
+    print(msg_action.get("actions")[0])
     # make new event
     if msg_action.get("type") == "block_actions" and 'Make New Event':
         client.views_open(
@@ -105,7 +105,7 @@ def action_handler():
                         "block_id": "set-date",
                         "element": {
                             "type": "datepicker",
-                            "initial_date": "1990-4-28",
+                            "initial_date": "2020-4-28",
                             "action_id": "date-set",
                             "placeholder": {
                                 "type": "plain_text",
@@ -129,7 +129,7 @@ def action_handler():
 
 
 # Prompts user when @ed
-@slack_events_adapter.on('app_mention')
+#@slack_events_adapter.on('app_mention')
 def ask(payload):
     event = payload.get('event', {})
     user_id = event.get("user")
