@@ -1,11 +1,11 @@
 
 # Import Python runtime and set up working directory
-FROM python:3.7-slim
+FROM python:3.8-slim
 WORKDIR /app
 ADD . /app
 
 # Install any necessary dependencies
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Open port 80 for serving the webpage
 EXPOSE 80
