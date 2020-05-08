@@ -9,7 +9,6 @@ import slack
 from flask import Flask, request, make_response
 from slackeventsapi import SlackEventAdapter
 import json
-import googleapiclient.discovery
 
 events = list()
 
