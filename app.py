@@ -120,6 +120,27 @@ def action_handler():
                             "emoji": True
                         }
 
+                    },
+                    {
+                        "type": "input",
+                        "element": {
+                            "type": "plain_text_input"
+                        },
+                        "label": {
+                            "type": "plain_text",
+                            "text": "Event Name"
+                        }
+                    },
+                    {
+                        "type": "input",
+                        "element": {
+                            "type": "plain_text_input",
+                            "multiline": True
+                        },
+                        "label": {
+                            "type": "plain_text",
+                            "text": "Event Description"
+                        }
                     }
                 ]
             }
