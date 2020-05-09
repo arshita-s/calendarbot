@@ -734,7 +734,7 @@ make_new_event_modal = {
                     "value": "option 1",
                     "description": {
                         "type": "plain_text",
-                        "text": "ante merideim"
+                        "text": "ante meridiem"
                     }
                 },
                 "options": [
@@ -746,7 +746,7 @@ make_new_event_modal = {
                         "value": "option 1",
                         "description": {
                             "type": "plain_text",
-                            "text": "ante merideim"
+                            "text": "ante meridiem"
                         }
                     },
                     {
@@ -757,7 +757,7 @@ make_new_event_modal = {
                         "value": "option 2",
                         "description": {
                             "type": "plain_text",
-                            "text": "post merideim"
+                            "text": "post meridiem"
                         }
                     }
                 ]
@@ -1398,7 +1398,7 @@ make_new_event_modal = {
                     "value": "option 1",
                     "description": {
                         "type": "plain_text",
-                        "text": "ante merideim"
+                        "text": "ante meridiem"
                     }
                 },
                 "options": [
@@ -1410,7 +1410,7 @@ make_new_event_modal = {
                         "value": "option 1",
                         "description": {
                             "type": "plain_text",
-                            "text": "ante merideim"
+                            "text": "ante meridiem"
                         }
                     },
                     {
@@ -1421,7 +1421,7 @@ make_new_event_modal = {
                         "value": "option 2",
                         "description": {
                             "type": "plain_text",
-                            "text": "post merideim"
+                            "text": "post meridiem"
                         }
                     }
                 ]
