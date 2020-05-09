@@ -147,7 +147,8 @@ def action_handler():
                         },
                         "label": {
                             "type": "plain_text",
-                            "text": "Event Description"
+                            "text": "Event Description",
+                            "optional": True
                         }
                     }
                 ]
