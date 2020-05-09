@@ -13,15 +13,17 @@ import datetime
 
 events = list()
 
-
+SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
+SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
+SLACK_SIGNING_SECRET = '6ee8492929d135bf1ba948350114e6f4'
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
 # initializing clients
 
-slack_token = os.environ.get('SLACK_BOT_TOKEN')
+slack_token = SLACK_BOT_TOKEN
 client = slack.WebClient(token=slack_token)
-slack_events_adapter = SlackEventAdapter(os.environ.get('SLACK_SIGNING_SECRET'), "/slack/events", app)
+slack_events_adapter = SlackEventAdapter(SLACK_SIGNING_SECRET, "/slack/events", app)
 
 
 # find the id of the bot
