@@ -61,10 +61,11 @@ def action_handler():
     msg_action = json.loads(request.form["payload"])
     print(msg_action)
     # make new event
-    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['text']['text']) == 'Make New Event':
+    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")['block_id'] == 'msg_new_event'):
         client.views_open(
             trigger_id=msg_action["trigger_id"],
-            view=blocks.make_new_event_modal
+            view=blocks.make_new_event_modal,
+
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])

@@ -17,6 +17,7 @@ make_new_event_button = [
     },
     {
         "type": "actions",
+        "block_id": "msg_new_event",
         "elements": [
             {
                 "type": "button",
