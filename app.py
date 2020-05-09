@@ -19,9 +19,9 @@ app = Flask(__name__)
 
 # initializing clients
 
-slack_token = os.environ['SLACK_BOT_TOKEN']
+slack_token = os.environ.get('SLACK_BOT_TOKEN')
 client = slack.WebClient(token=slack_token)
-slack_events_adapter = SlackEventAdapter(os.environ['SLACK_SIGNING_SECRET'], "/slack/events", app)
+slack_events_adapter = SlackEventAdapter(os.environ.get('SLACK_SIGNING_SECRET'), "/slack/events", app)
 
 
 # find the id of the bot
