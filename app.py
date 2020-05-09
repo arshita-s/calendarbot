@@ -85,6 +85,7 @@ current_date = str(datetime.datetime.now())[:10]
 def action_handler():
     msg_action = json.loads(request.form["payload"])
     # make new event
+    print(msg_action)
     if msg_action.get("type") == "block_actions" and 'Make New Event':
         client.views_open(
             trigger_id=msg_action["trigger_id"],
@@ -141,8 +142,8 @@ def action_handler():
                         "block_id": "description",
                         "element": {
                             "type": "plain_text_input",
-                            "action_id": "description-set",
-                            "multiline": True
+                            "multiline": True,
+                            "action_id": "description-set"
                         },
                         "label": {
                             "type": "plain_text",
