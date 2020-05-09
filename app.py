@@ -108,7 +108,8 @@ def action_handler():
                         "type": "input",
                         "block_id": "name",
                         "element": {
-                            "type": "plain_text_input"
+                            "type": "plain_text_input",
+                            "action_id": "name-set"
                         },
                         "label": {
                             "type": "plain_text",
@@ -140,6 +141,7 @@ def action_handler():
                         "block_id": "description",
                         "element": {
                             "type": "plain_text_input",
+                            "action_id": "description-set",
                             "multiline": True
                         },
                         "label": {
