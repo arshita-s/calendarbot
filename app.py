@@ -9,20 +9,19 @@ import slack
 from flask import Flask, request, make_response
 from slackeventsapi import SlackEventAdapter
 import json
+import datetime
 
 events = list()
 
-SLACK_VERIFICATION_TOKEN = 'lhbdgYshgpvXAtiqQ733M55e'
-SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
-SLACK_SIGNING_SECRET = '6ee8492929d135bf1ba948350114e6f4'
+
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
 # initializing clients
 
-slack_token = SLACK_BOT_TOKEN
+slack_token = os.environ['SLACK_BOT_TOKEN']
 client = slack.WebClient(token=slack_token)
-slack_events_adapter = SlackEventAdapter(SLACK_SIGNING_SECRET, "/slack/events", app)
+slack_events_adapter = SlackEventAdapter(os.environ['SLACK_SIGNING_SECRET'], "/slack/events", app)
 
 
 # find the id of the bot
@@ -76,10 +75,13 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
+
+current_date = str(datetime.datetime.now())
+
+
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
-    print(msg_action.get("actions")[0])
     # make new event
     if msg_action.get("type") == "block_actions" and 'Make New Event':
         client.views_open(
@@ -102,10 +104,20 @@ def action_handler():
                 "blocks": [
                     {
                         "type": "input",
+                        "element": {
+                            "type": "plain_text_input"
+                        },
+                        "label": {
+                            "type": "plain_text",
+                            "text": "Event Name"
+                        }
+                    },
+                    {
+                        "type": "input",
                         "block_id": "set-date",
                         "element": {
                             "type": "datepicker",
-                            "initial_date": "2020-4-28",
+                            "initial_date": current_date,
                             "action_id": "date-set",
                             "placeholder": {
                                 "type": "plain_text",
@@ -119,16 +131,6 @@ def action_handler():
                             "emoji": True
                         }
 
-                    },
-                    {
-                        "type": "input",
-                        "element": {
-                            "type": "plain_text_input"
-                        },
-                        "label": {
-                            "type": "plain_text",
-                            "text": "Event Name"
-                        }
                     },
                     {
                         "type": "input",
