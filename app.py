@@ -106,6 +106,7 @@ def action_handler():
                 "blocks": [
                     {
                         "type": "input",
+                        "block_id": "name",
                         "element": {
                             "type": "plain_text_input"
                         },
@@ -136,6 +137,7 @@ def action_handler():
                     },
                     {
                         "type": "input",
+                        "block_id": "description",
                         "element": {
                             "type": "plain_text_input",
                             "multiline": True
