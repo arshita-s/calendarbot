@@ -9,7 +9,7 @@ import slack
 from flask import Flask, request, make_response
 from slackeventsapi import SlackEventAdapter
 import json
-import datetime
+import blocks
 
 events = list()
 
@@ -47,29 +47,7 @@ def greeting():
 def event_handler():
     client.chat_postMessage(
         channel='general',
-        blocks=[
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "What would you like to do?"
-                }
-            },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Make New Event",
-                            "emoji": True
-                        },
-                        "value": "new_event"
-                    }
-                ]
-            }
-        ]
+        blocks=blocks.make_new_event_button
     )
     return ''
 
@@ -77,9 +55,6 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
-
-current_date = str(datetime.datetime.now())[:10]
-
 
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
@@ -89,70 +64,7 @@ def action_handler():
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['text']['text']) == 'Make New Event':
         client.views_open(
             trigger_id=msg_action["trigger_id"],
-            view={
-                "type": "modal",
-                "callback_id": "make-new-event",
-                "title": {
-                    "type": "plain_text",
-                    "text": "Create a New Event"
-                },
-                "submit": {
-                    "type": "plain_text",
-                    "text": "Submit"
-                },
-                "close": {
-                    "type": "plain_text",
-                    "text": "Cancel"
-                },
-                "blocks": [
-                    {
-                        "type": "input",
-                        "block_id": "name",
-                        "element": {
-                            "type": "plain_text_input",
-                            "action_id": "name-set"
-                        },
-                        "label": {
-                            "type": "plain_text",
-                            "text": "Event Name"
-                        }
-                    },
-                    {
-                        "type": "input",
-                        "block_id": "set-date",
-                        "element": {
-                            "type": "datepicker",
-                            "initial_date": current_date,
-                            "action_id": "date-set",
-                            "placeholder": {
-                                "type": "plain_text",
-                                "text": "Select a Date",
-                                "emoji": True
-                            }
-                        },
-                        "label": {
-                            "type": "plain_text",
-                            "text": "Set Date",
-                            "emoji": True
-                        }
-
-                    },
-                    {
-                        "type": "input",
-                        "block_id": "description",
-                        "element": {
-                            "type": "plain_text_input",
-                            "multiline": True,
-                            "action_id": "description-set"
-                        },
-                        "label": {
-                            "type": "plain_text",
-                            "text": "Event Description"
-                        },
-                        "optional": True
-                    }
-                ]
-            }
+            view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action.get("view"))
@@ -172,3 +84,4 @@ def ask(payload):
 
 if __name__ == "__main__":
     app.run(port=8080)
+
