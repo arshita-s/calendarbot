@@ -86,7 +86,7 @@ def action_handler():
     msg_action = json.loads(request.form["payload"])
     # make new event
     print(msg_action)
-    if msg_action.get("type") == "block_actions" and 'Make New Event':
+    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['text']['text']) == 'Make New Event':
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view={
@@ -153,7 +153,7 @@ def action_handler():
                 ]
             }
         )
-    elif msg_action.get("type") == "view_submission": # events saved as (name, date, start time, end time, category)
+    elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action.get("view"))
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         print(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
