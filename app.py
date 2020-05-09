@@ -59,6 +59,7 @@ def event_handler():
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
+    print(msg_action)
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['text']['text']) == 'Make New Event':
         client.views_open(
@@ -66,7 +67,6 @@ def action_handler():
             view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
-        print(msg_action.get("view"))
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         print(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
     return make_response("", 200)
