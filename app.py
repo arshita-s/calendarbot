@@ -78,7 +78,7 @@ def event_handler():
 
 # Handles button clicks
 
-current_date = str(datetime.datetime.now())
+current_date = str(datetime.datetime.now())[:10]
 
 
 @app.route('/slack/actions', methods=['POST'])
