@@ -52,7 +52,10 @@ def event_handler():
     client.chat_postEphemeral(
         channel='general',
         blocks=blocks.make_new_event_button,
-        user=user
+        user=user,
+        attachments=[{}],
+        text='',
+        token=slack_token
     )
     return ''
 
