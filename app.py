@@ -73,7 +73,7 @@ def action_handler():
         print(msg_action.get('view'))
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('state')['values']['name']['name-set']['value']
-        datestr = msg_action.get('state')['values']['set-date']['date-set']['selected_date']
+        datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
         date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
         weekday = calendar.day_name[date.weekday()]
         d = date.day
