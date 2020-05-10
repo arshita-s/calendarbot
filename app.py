@@ -48,14 +48,13 @@ def greeting():
 @app.route('/event', methods=['POST'])
 def event_handler():
     ev = json.loads(request.form["payload"])
+    print(ev)
     user = ev.get('user')['id']
     client.chat_postEphemeral(
         channel='general',
         blocks=blocks.make_new_event_button,
         user=user,
-        attachments=[{}],
         text='',
-        token=slack_token
     )
     return ''
 
