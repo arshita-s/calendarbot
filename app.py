@@ -57,12 +57,11 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
-chan = ''
+chan = 'general'
 user_id = ''
 
 
 @app.route('/slack/actions', methods=['POST'])
-
 def action_handler():
     global chan, user_id
     msg_action = json.loads(request.form["payload"])
