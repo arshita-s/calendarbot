@@ -59,7 +59,6 @@ def event_handler():
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
-    print(msg_action)
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
         client.views_open(
