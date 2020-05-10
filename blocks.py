@@ -221,6 +221,7 @@ make_new_event_modal = {
         },
         {
             "type": "section",
+            "block_id": "start-minute",
             "text": {
                 "type": "mrkdwn",
                 "text": "Pick a Minute"
@@ -727,38 +728,38 @@ make_new_event_modal = {
                 "type": "radio_buttons",
                 "action_id": "s-am-pm",
                 "initial_option": {
+                    "value": "option 1",
                     "text": {
                         "type": "plain_text",
                         "text": "AM"
-                    },
-                    "value": "option 1",
-                    "description": {
-                        "type": "plain_text",
-                        "text": "ante meridiem"
-                    }
+                    }  # ,
+                    # "description": {
+                    #     "type": "plain_text",
+                    #     "text": "ante meridiem"
+                    # }
                 },
                 "options": [
                     {
+                        "value": "option 1",
                         "text": {
                             "type": "plain_text",
                             "text": "AM"
-                        },
-                        "value": "option 1",
-                        "description": {
-                            "type": "plain_text",
-                            "text": "ante meridiem"
-                        }
+                        }  # ,
+                        # "description": {
+                        #     "type": "plain_text",
+                        #     "text": "ante meridiem"
+                        # }
                     },
                     {
+                        "value": "option 2",
                         "text": {
                             "type": "plain_text",
                             "text": "PM"
-                        },
-                        "value": "option 2",
-                        "description": {
-                            "type": "plain_text",
-                            "text": "post meridiem"
-                        }
+                        }  # ,
+                        # "description": {
+                        #     "type": "plain_text",
+                        #     "text": "post meridiem"
+                        # }
                     }
                 ]
             }
@@ -772,6 +773,7 @@ make_new_event_modal = {
         },
         {
             "type": "section",
+            "block_id": "end-hour",
             "text": {
                 "type": "mrkdwn",
                 "text": "Pick an Hour"
@@ -885,6 +887,7 @@ make_new_event_modal = {
         },
         {
             "type": "section",
+            "block_id": "end-minute",
             "text": {
                 "type": "mrkdwn",
                 "text": "Pick a Minute"
@@ -1382,46 +1385,34 @@ make_new_event_modal = {
         },
         {
             "type": "section",
-            "block_id":"end-am-pm",
+            "block_id": "end-am-pm",
             "text": {
                 "type": "mrkdwn",
                 "text": " "
             },
             "accessory": {
                 "type": "radio_buttons",
-                "action_id":"e-am-pm",
+                "action_id": "e-am-pm",
                 "initial_option": {
+                    "value": "option 1",
                     "text": {
                         "type": "plain_text",
                         "text": "AM"
-                    },
-                    "value": "option 1",
-                    "description": {
-                        "type": "plain_text",
-                        "text": "ante meridiem"
                     }
                 },
                 "options": [
                     {
+                        "value": "option 1",
                         "text": {
                             "type": "plain_text",
                             "text": "AM"
-                        },
-                        "value": "option 1",
-                        "description": {
-                            "type": "plain_text",
-                            "text": "ante meridiem"
                         }
                     },
                     {
+                        "value": "option 2",
                         "text": {
                             "type": "plain_text",
                             "text": "PM"
-                        },
-                        "value": "option 2",
-                        "description": {
-                            "type": "plain_text",
-                            "text": "post meridiem"
                         }
                     }
                 ]
