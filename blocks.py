@@ -887,7 +887,7 @@ make_new_event_modal = {
         },
         {
             "type": "section",
-            "block_id": "start-hour",
+            "block_id": "start-minute",
             "text": {
                 "type": "mrkdwn",
                 "text": "Pick a Minute"
