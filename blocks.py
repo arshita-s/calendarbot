@@ -105,118 +105,15 @@ make_new_event_modal = {
             }
         },
         {
-            "type": "section",
+            "type": "input",
             "block_id": "start-hour",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Pick an Hour"
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "start-hour-set"
             },
-            "accessory": {
-                "type": "static_select",
-                "action_id": "hour-start",
-                "placeholder": {
-                    "type": "plain_text",
-                    "text": "Hour",
-                    "emoji": True
-                },
-                "options": [
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "1",
-                            "emoji": True
-                        },
-                        "value": "value-0"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "2",
-                            "emoji": True
-                        },
-                        "value": "value-1"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "3",
-                            "emoji": True
-                        },
-                        "value": "value-2"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "4",
-                            "emoji": True
-                        },
-                        "value": "value-0"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "5",
-                            "emoji": True
-                        },
-                        "value": "value-1"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "6",
-                            "emoji": True
-                        },
-                        "value": "value-2"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "7",
-                            "emoji": True
-                        },
-                        "value": "value-0"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "8",
-                            "emoji": True
-                        },
-                        "value": "value-1"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "9",
-                            "emoji": True
-                        },
-                        "value": "value-2"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "10",
-                            "emoji": True
-                        },
-                        "value": "value-0"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "11",
-                            "emoji": True
-                        },
-                        "value": "value-1"
-                    },
-                    {
-                        "text": {
-                            "type": "plain_text",
-                            "text": "12",
-                            "emoji": True
-                        },
-                        "value": "value-2"
-                    }
-                ]
+            "label": {
+                "type": "plain_text",
+                "text": "Start Hour"
             }
         },
         {
@@ -732,11 +629,7 @@ make_new_event_modal = {
                     "text": {
                         "type": "plain_text",
                         "text": "AM"
-                    }  # ,
-                    # "description": {
-                    #     "type": "plain_text",
-                    #     "text": "ante meridiem"
-                    # }
+                    }
                 },
                 "options": [
                     {
@@ -744,22 +637,14 @@ make_new_event_modal = {
                         "text": {
                             "type": "plain_text",
                             "text": "AM"
-                        }  # ,
-                        # "description": {
-                        #     "type": "plain_text",
-                        #     "text": "ante meridiem"
-                        # }
+                        }
                     },
                     {
                         "value": "option 2",
                         "text": {
                             "type": "plain_text",
                             "text": "PM"
-                        }  # ,
-                        # "description": {
-                        #     "type": "plain_text",
-                        #     "text": "post meridiem"
-                        # }
+                        }
                     }
                 ]
             }
