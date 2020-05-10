@@ -10,6 +10,8 @@ from flask import Flask, request, make_response
 from slackeventsapi import SlackEventAdapter
 import json
 import blocks
+import calendar
+import datetime
 
 events = list()
 
@@ -59,16 +61,28 @@ def event_handler():
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     msg_action = json.loads(request.form["payload"])
-    print(msg_action)
+    chan = 'general'
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
+        chan = msg_action.get("channel")
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
-        print(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
+        event_name = msg_action.get('state')['values']['name']['name-set']['value']
+        datestr = msg_action.get('state')['values']['set-date']['date-set']['selected_date']
+        date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
+        weekday = calendar.day_name[date.weekday()]
+        d = date.day
+        y = date.year
+        m = date.month
+        client.chat_postMessage(
+            channel=chan,
+            text="You have created an event, " + event_name + ", on " + m + " " + d + ", " + y + "."
+        )
+
     return make_response("", 200)
 
 
