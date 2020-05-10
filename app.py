@@ -57,14 +57,20 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
+chan = ''
+user_id = ''
+
 
 @app.route('/slack/actions', methods=['POST'])
+
 def action_handler():
+    global chan, user_id
     msg_action = json.loads(request.form["payload"])
-    chan = 'general'
+
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
         chan = msg_action.get("channel")
+        user_id = msg_action.get('message')['user']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
