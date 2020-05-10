@@ -57,20 +57,25 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
+chan = 'general'
+user_id = ''
+
 
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
+    global chan, user_id
     msg_action = json.loads(request.form["payload"])
-    chan = 'general'
+
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
         chan = msg_action.get("channel")
+        user_id = msg_action.get('message')['user']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
-        print(msg_action.get('view'))
+        print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
@@ -80,8 +85,8 @@ def action_handler():
         y = date.year
         m = calendar.month_name[date.month]
         client.chat_postMessage(
-            channel=chan,
-            text="You have created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            channel='general',
+            text=" has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
