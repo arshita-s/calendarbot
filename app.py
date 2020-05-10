@@ -78,10 +78,10 @@ def action_handler():
         weekday = calendar.day_name[date.weekday()]
         d = date.day
         y = date.year
-        m = date.month
+        m = calendar.month_name[date.month]
         client.chat_postMessage(
             channel=chan,
-            text="You have created an event, " + event_name + ", on " + m + " " + d + ", " + y + "."
+            text="You have created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
