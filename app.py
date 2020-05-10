@@ -70,6 +70,7 @@ def action_handler():
             view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
+        print(msg_action.get('view'))
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('state')['values']['name']['name-set']['value']
         datestr = msg_action.get('state')['values']['set-date']['date-set']['selected_date']
