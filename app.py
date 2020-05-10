@@ -75,7 +75,7 @@ def action_handler():
             view=blocks.make_new_event_modal
         )
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
-        print(msg_action.get('view'))
+        print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
@@ -85,8 +85,8 @@ def action_handler():
         y = date.year
         m = calendar.month_name[date.month]
         client.chat_postMessage(
-            channel=chan,
-            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            channel='general',
+            text=" has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
