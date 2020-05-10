@@ -81,7 +81,6 @@ def action_handler():
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
         date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
         weekday = calendar.day_name[date.weekday()]
-        u_id = msg_action.get('view')['id']
         d = date.day
         y = date.year
         m = calendar.month_name[date.month]
