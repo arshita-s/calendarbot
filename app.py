@@ -58,12 +58,10 @@ def event_handler():
 
 # Handles button clicks
 chan = 'general'
-user_id = ''
 
 
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
-    global chan, user_id
     msg_action = json.loads(request.form["payload"])
 
     # make new event
@@ -84,9 +82,10 @@ def action_handler():
         d = date.day
         y = date.year
         m = calendar.month_name[date.month]
+        user_id = msg_action.get('user')['id']
         client.chat_postMessage(
             channel='general',
-            text=" has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            text= get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
