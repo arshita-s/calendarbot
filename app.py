@@ -47,7 +47,7 @@ def greeting():
 # Event command will prompt the user for a choice and open up the corresponding modal
 @app.route('/event', methods=['POST'])
 def event_handler():
-    user = str(request.args.get("user_id"))
+    user = str(request.form.get("user_id"))
     print(user)
     client.chat_postEphemeral(
         channel='general',
