@@ -47,9 +47,12 @@ def greeting():
 # Event command will prompt the user for a choice and open up the corresponding modal
 @app.route('/event', methods=['POST'])
 def event_handler():
-    client.chat_postMessage(
+    ev = json.loads(request.form["payload"])
+    user = ev.get('user')['id']
+    client.chat_postEphemeral(
         channel='general',
-        blocks=blocks.make_new_event_button
+        blocks=blocks.make_new_event_button,
+        user=user
     )
     return ''
 
@@ -66,8 +69,8 @@ def action_handler():
 
     # make new event
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
+        global chan
         chan = msg_action.get("channel")
-        user_id = msg_action.get('message')['user']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
@@ -85,7 +88,7 @@ def action_handler():
         user_id = msg_action.get('user')['id']
         client.chat_postMessage(
             channel='general',
-            text= get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
