@@ -72,7 +72,7 @@ def action_handler():
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action.get('view'))
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
-        event_name = msg_action.get('state')['values']['name']['name-set']['value']
+        event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
         date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
         weekday = calendar.day_name[date.weekday()]
