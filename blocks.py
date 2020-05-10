@@ -109,7 +109,8 @@ make_new_event_modal = {
             "block_id": "start-hour",
             "element": {
                 "type": "plain_text_input",
-                "action_id": "start-hour-set"
+                "action_id": "start-hour-set",
+                "max_length": 2
             },
             "label": {
                 "type": "plain_text",
@@ -121,7 +122,8 @@ make_new_event_modal = {
             "block_id": "start-minute",
             "element": {
                 "type": "plain_text_input",
-                "action_id": "start-minute-set"
+                "action_id": "start-minute-set",
+                "max_length": 2
             },
             "label": {
                 "type": "plain_text",
@@ -175,7 +177,8 @@ make_new_event_modal = {
             "block_id": "end-hour",
             "element": {
                 "type": "plain_text_input",
-                "action_id": "end-hour-set"
+                "action_id": "end-hour-set",
+                "max_length": 2
             },
             "label": {
                 "type": "plain_text",
@@ -187,7 +190,8 @@ make_new_event_modal = {
             "block_id": "end-minute",
             "element": {
                 "type": "plain_text_input",
-                "action_id": "end-minute-set"
+                "action_id": "end-minute-set",
+                "max_length": 2
             },
             "label": {
                 "type": "plain_text",
