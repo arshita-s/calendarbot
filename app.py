@@ -61,7 +61,7 @@ def action_handler():
     msg_action = json.loads(request.form["payload"])
     print(msg_action)
     # make new event
-    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")['block_id'] == 'msg_new_event'):
+    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
