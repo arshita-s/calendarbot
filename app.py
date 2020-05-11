@@ -14,6 +14,7 @@ import calendar
 import datetime
 
 events = list()
+categories = ["School", "Work", "Party"]
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -110,30 +111,29 @@ def ask(payload):
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate_categories():
-    return make_response({
-        "options": [
-        {
+    options = dict()
+    for i in range(len(categories)):
+        if i == len(categories)-1:
+            options.update({
+                "text": {
+                    "type": "plain_text",
+                    "text": categories[i]
+                },
+                "value": "value-0"
+            })
+            break
+        options.update({
           "text": {
             "type": "plain_text",
-            "text": "*this is plain_text text*"
+            "text": categories[i]
           },
           "value": "value-0"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "*this is plain_text text*"
-          },
-          "value": "value-1"
-        },
-        {
-          "text": {
-            "type": "plain_text",
-            "text": "*this is plain_text text*"
-          },
-          "value": "value-2"
-        }
-        ]}, 200)
+        },)
+
+    cats = {"options": []}
+    cats["options"].append(options)
+
+    return make_response(cats, 200)
 
 
 if __name__ == "__main__":
