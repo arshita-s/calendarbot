@@ -48,7 +48,6 @@ def greeting():
 @app.route('/event', methods=['POST'])
 def event_handler():
     user = str(request.form.get("user_id"))
-    print(user)
     client.chat_postEphemeral(
         channel='general',
         blocks=blocks.make_new_event_button,
@@ -89,7 +88,7 @@ def action_handler():
         user_id = msg_action.get('user')['id']
         client.chat_postMessage(
             channel='general',
-            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            text=get_mention(user_id) + " has created an event, " + event_name + ", happening on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
         )
 
     return make_response("", 200)
@@ -102,6 +101,35 @@ def ask(payload):
     user_id = event.get("user")
     cid = event.get('channel')
     client.chat_postMessage(channel=cid, text="What can I do for you, " + get_mention(user_id) + "?")
+
+
+# When a user wants to create a new event, sends a request to populate categories menu
+@app.route('/options-load-endpoint', methods=['POST'])
+def populate_categories():
+    return make_response({
+        "options": [
+        {
+          "text": {
+            "type": "plain_text",
+            "text": "*this is plain_text text*"
+          },
+          "value": "value-0"
+        },
+        {
+          "text": {
+            "type": "plain_text",
+            "text": "*this is plain_text text*"
+          },
+          "value": "value-1"
+        },
+        {
+          "text": {
+            "type": "plain_text",
+            "text": "*this is plain_text text*"
+          },
+          "value": "value-2"
+        }
+        ]}, 200)
 
 
 if __name__ == "__main__":

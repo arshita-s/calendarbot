@@ -228,6 +228,23 @@ make_new_event_modal = {
                     }
                 ]
             }
+        },
+        {
+            "type": "input",
+            "element": {
+                "type": "external_select",
+                "action_id": "event-category",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an Event Category",
+                    "emoji": True
+                }
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Event Category",
+                "emoji": True
+            }
         }
     ]
 }
