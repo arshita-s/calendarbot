@@ -82,18 +82,23 @@ def action_handler():
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
         start_hour = int(msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value'])
         start_minute = int(msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value'])
+        start_ampm = msg_action.get('view')['state']['values']
         end_hour = int(msg_action.get('view')['state']['values']['end-hour']['end-hour-set']['value'])
         end_minute = int(msg_action.get('view')['state']['values']['end-minute']['end-minute-set']['value'])
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
-        date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
-        weekday = calendar.day_name[date.weekday()]
-        d = date.day
-        y = date.year
-        m = calendar.month_name[date.month]
+        start_date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
+        weekday = calendar.day_name[start_date.weekday()]
+        d = start_date.day
+        y = start_date.year
+        m = calendar.month_name[start_date.month]
+        end_date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
         user_id = msg_action.get('user')['id']
         client.chat_postMessage(
             channel='general',
-            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + ". at " + str(date.hour) + ":" + str(date.minute)
+            text=get_mention(
+                user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(
+                d) + ", " + str(y) + " from " + str(start_date.hour) + ":" + str(start_date.minute) + " until " + str(
+                end_date.hour) + ":" + str(end_date.minute)
         )
 
     return make_response("", 200)
@@ -110,4 +115,3 @@ def ask(payload):
 
 if __name__ == "__main__":
     app.run(port=8080)
-
