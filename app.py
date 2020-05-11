@@ -138,6 +138,7 @@ def populate_categories():
 
     cats = {"options": []}
     cats["options"].append(options)
+    print(cats)
 
     return make_response(cats, 200)
 
