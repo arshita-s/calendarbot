@@ -248,7 +248,8 @@ make_new_event_modal = {
                 "type": "plain_text",
                 "text": "Event Category",
                 "emoji": True
-            }
+            },
+            "optional": True
         }
     ]
 }
