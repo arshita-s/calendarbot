@@ -133,7 +133,7 @@ def populate_categories():
             "type": "plain_text",
             "text": categories[i]
           },
-          "value": "value-0"
+          "value": "value-" + str(i)
         },)
 
     cats = {"options": []}
