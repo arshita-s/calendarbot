@@ -112,6 +112,7 @@ def action_handler():
                 d) + ", " + str(y) + " from " + str(start_date.hour) + ":" + str(start_date.minute) + " until " + str(
                 end_date.hour) + ":" + str(end_date.minute)
         )
+        print(cal)
 
     return make_response("", 200)
 
