@@ -15,6 +15,7 @@ import datetime
 
 events = list()
 cal = {}
+categories = ["School", "Work", "Party"]
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -85,7 +86,7 @@ def action_handler():
         event_category = msg_action.get('view')['state']['values']['category']['event-category']['selected_option']['text']['text']
         start_hour = int(msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value'])
         start_minute = int(msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value'])
-        # start_ampm = msg_action.get('view')['state']['values'] # idk how to figure out how to get the value from this
+        # start_ampm = msg_action.get('view')['state']['values']
         end_hour = int(msg_action.get('view')['state']['values']['end-hour']['end-hour-set']['value'])
         end_minute = int(msg_action.get('view')['state']['values']['end-minute']['end-minute-set']['value'])
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
@@ -122,6 +123,33 @@ def ask(payload):
     user_id = event.get("user")
     cid = event.get('channel')
     client.chat_postMessage(channel=cid, text="What can I do for you, " + get_mention(user_id) + "?")
+
+# When a user wants to create a new event, sends a request to populate categories menu
+@app.route('/options-load-endpoint', methods=['POST'])
+def populate_categories():
+    options = []
+    for i in range(len(categories)):
+        if i == len(categories)-1:
+            options.append({
+                "text": {
+                    "type": "plain_text",
+                    "text": categories[i]
+                },
+                "value": "value-0"
+            })
+            break
+        options.append({
+          "text": {
+            "type": "plain_text",
+            "text": categories[i]
+          },
+          "value": "value-" + str(i)
+        },)
+
+    cats = {"options": options}
+    print(cats)
+
+    return make_response(cats, 200)
 
 
 if __name__ == "__main__":
