@@ -80,10 +80,12 @@ def action_handler():
         print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
-        start_time = msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value']
-        print(start_time)
+        start_hour = msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value']
+        start_minute = msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value']
+        end_hour = msg_action.get('view')['state']['values']['end-hour']['end-hour-set']['value']
+        end_minute = msg_action.get('view')['state']['values']['end-minute']['end-minute-set']['value']
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
-        date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
+        date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
         weekday = calendar.day_name[date.weekday()]
         d = date.day
         y = date.year
@@ -91,7 +93,7 @@ def action_handler():
         user_id = msg_action.get('user')['id']
         client.chat_postMessage(
             channel='general',
-            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + "."
+            text=get_mention(user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(d) + ", " + str(y) + ". at " + str(date.hour) + ":" + str(date.minute)
         )
 
     return make_response("", 200)
