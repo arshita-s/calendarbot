@@ -117,10 +117,10 @@ def ask(payload):
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate_categories():
-    options = dict()
+    options = []
     for i in range(len(categories)):
         if i == len(categories)-1:
-            options.update({
+            options.append({
                 "text": {
                     "type": "plain_text",
                     "text": categories[i]
@@ -128,7 +128,7 @@ def populate_categories():
                 "value": "value-0"
             })
             break
-        options.update({
+        options.append({
           "text": {
             "type": "plain_text",
             "text": categories[i]
