@@ -86,7 +86,10 @@ def action_handler():
             event_description = msg_action.get('view')['state']['values']['description']['description-set']['value']
         except KeyError:
             event_description = None
-        event_category = msg_action.get('view')['state']['values']['category']['event-category']['selected_option']['text']['text']
+        try:
+            event_category = msg_action.get('view')['state']['values']['category']['event-category']['selected_option']['text']['text']
+        except KeyError:
+            event_category = None
         start_hour = int(msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value'])
         start_minute = int(msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value'])
         # start_ampm = msg_action.get('view')['state']['values']
