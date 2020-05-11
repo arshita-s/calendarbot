@@ -14,6 +14,7 @@ import calendar
 import datetime
 
 events = list()
+cal = {}
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -80,9 +81,11 @@ def action_handler():
         print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
+        event_description = msg_action.get('view')['state']['values']['description']['description-set']['value']
+        event_category = msg_action.get('view')['state']['values']['category']['event-category']['selected_option']['text']['text']
         start_hour = int(msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value'])
         start_minute = int(msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value'])
-        start_ampm = msg_action.get('view')['state']['values']
+        # start_ampm = msg_action.get('view')['state']['values'] # idk how to figure out how to get the value from this
         end_hour = int(msg_action.get('view')['state']['values']['end-hour']['end-hour-set']['value'])
         end_minute = int(msg_action.get('view')['state']['values']['end-minute']['end-minute-set']['value'])
         datestr = msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date']
@@ -93,6 +96,14 @@ def action_handler():
         m = calendar.month_name[start_date.month]
         end_date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
         user_id = msg_action.get('user')['id']
+        if event_description and event_category:
+            cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
+        elif event_category:
+            cal[(event_name, start_date)] = (user_id, start_date, end_date, None, event_category)
+        elif event_description:
+            cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, None)
+        else:
+            cal[(event_name, start_date)] = (user_id, start_date, end_date, None, None)
         client.chat_postMessage(
             channel='general',
             text=get_mention(

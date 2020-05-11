@@ -235,6 +235,7 @@ make_new_event_modal = {
         },
         {
             "type": "input",
+            "block_id": "category",
             "element": {
                 "type": "external_select",
                 "action_id": "event-category",
