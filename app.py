@@ -82,7 +82,10 @@ def action_handler():
         print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
         event_name = msg_action.get('view')['state']['values']['name']['name-set']['value']
-        event_description = msg_action.get('view')['state']['values']['description']['description-set']['value']
+        try:
+            event_description = msg_action.get('view')['state']['values']['description']['description-set']['value']
+        except KeyError:
+            event_description = None
         event_category = msg_action.get('view')['state']['values']['category']['event-category']['selected_option']['text']['text']
         start_hour = int(msg_action.get('view')['state']['values']['start-hour']['start-hour-set']['value'])
         start_minute = int(msg_action.get('view')['state']['values']['start-minute']['start-minute-set']['value'])
