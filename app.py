@@ -6,7 +6,8 @@ Main
 import logging
 import os
 import slack
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request, make_response
+import requests
 from slackeventsapi import SlackEventAdapter
 import json
 import blocks
@@ -85,7 +86,7 @@ def action_handler():
             "delete_original": True
         }
         response_url = ub.unquote(msg_action.get('response_url'))
-        request.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
