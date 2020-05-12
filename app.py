@@ -46,14 +46,14 @@ def greeting():
 
 # Slash commands
 
-# Event command will prompt the user for a choice and open up the corresponding modal
+# Event command will prompt the user for a choice (of buttons) and open up the corresponding modal
 @app.route('/event', methods=['POST'])
 def event_handler():
     user = str(request.form.get("user_id"))
     print(user)
     client.chat_postEphemeral(
         channel='general',
-        blocks=blocks.make_new_event_button,
+        blocks=blocks.event_buttons,
         user=user,
         text='',
     )
@@ -70,14 +70,16 @@ chan = 'general'
 def action_handler():
     msg_action = json.loads(request.form["payload"])
 
-    # make new event
-    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_event'):
+    # Make new event button press
+    print(msg_action.get("actions")[0])
+    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_buttons'):
         global chan
         chan = msg_action.get("channel")
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
+    # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
         events.append(msg_action.get('view')['state']['values']['set-date']['date-set']['selected_date'])
@@ -136,7 +138,7 @@ def populate_categories():
                     "type": "plain_text",
                     "text": categories[i]
                 },
-                "value": "value-0"
+                "value": "value-" + str(i)
             })
             break
         options.append({
@@ -148,7 +150,6 @@ def populate_categories():
         },)
 
     cats = {"options": options}
-    print(cats)
 
     return make_response(cats, 200)
 

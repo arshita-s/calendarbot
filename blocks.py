@@ -7,7 +7,7 @@ import datetime
 
 current_date = str(datetime.datetime.now())[:10]
 
-make_new_event_button = [
+event_buttons = [
     {
         "type": "section",
         "text": {
@@ -17,16 +17,27 @@ make_new_event_button = [
     },
     {
         "type": "actions",
-        "block_id": "msg_new_event",
+        "block_id": "msg_new_buttons",
         "elements": [
             {
                 "type": "button",
+                "action_id": "event",
                 "text": {
                     "type": "plain_text",
                     "text": "Make New Event",
                     "emoji": True
                 },
                 "value": "new_event"
+            },
+{
+                "type": "button",
+                "action_id": "category",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Make New Category",
+                    "emoji": True
+                },
+                "value": "new_category"
             }
         ]
     }
