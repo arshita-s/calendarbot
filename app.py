@@ -75,6 +75,7 @@ def action_handler():
     # Make new event button press
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
         m_ts = msg_action.get('container')['message_ts']
+        chan = msg_action.get("channel")
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
@@ -129,6 +130,7 @@ def action_handler():
     # Make new category button press
     elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
         m_ts = msg_action.get('container')['message_ts']
+        chan = msg_action.get("channel")
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_cat_modal
