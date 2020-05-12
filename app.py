@@ -6,7 +6,7 @@ Main
 import logging
 import os
 import slack
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 from slackeventsapi import SlackEventAdapter
 import json
 import blocks
@@ -80,11 +80,13 @@ def action_handler():
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
-        resp = {
-            "replace_original": True,
-            "text": "Creating new event ..."
-        }
-        return make_response(resp, 200)
+        response = jsonify({
+            'response_type': 'ephemeral',
+            'text': '',
+            'replace_original': 'true',
+            'delete_original': 'true'
+        })
+        return make_response(response, 200)
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
@@ -135,11 +137,13 @@ def action_handler():
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_cat_modal
         )
-        resp = {
-            "replace_original": True,
-            "text": "Creating new category ..."
-        }
-        return make_response(resp, 200)
+        response = jsonify({
+            'response_type': 'ephemeral',
+            'text': '',
+            'replace_original': 'true',
+            'delete_original': 'true'
+        })
+        return make_response(response, 200)
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']
