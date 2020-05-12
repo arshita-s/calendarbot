@@ -290,7 +290,7 @@ make_new_event_modal = {
                     "text": "Select an Event Category",
                     "emoji": True
                 },
-                "min_query_length": 2
+                "min_query_length": 0
             },
             "label": {
                 "type": "plain_text",
