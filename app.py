@@ -130,8 +130,8 @@ def action_handler():
         )
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
-        name = msg_action.get('view')['state']
-        print(name)
+        name = msg_action.get('view')['state']['values']['name']['name-set']['value']
+        categories.append(name)
     return make_response("", 200)
 
 
