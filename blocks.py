@@ -29,7 +29,7 @@ event_buttons = [
                 },
                 "value": "new_event"
             },
-{
+            {
                 "type": "button",
                 "action_id": "category",
                 "text": {
@@ -42,6 +42,41 @@ event_buttons = [
         ]
     }
 ]
+
+make_new_cat_modal = {
+    "type": "modal",
+    "callback_id": "make-new-cat",
+    "title": {
+        "type": "plain_text",
+        "text": "Create New Category",
+        "emoji": True
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": True
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": True
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "block_id": "name",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "name-set"
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Enter Category Name",
+                "emoji": True
+            }
+        }
+    ]
+}
 
 make_new_event_modal = {
     "type": "modal",

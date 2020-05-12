@@ -15,7 +15,7 @@ import datetime
 
 events = list()
 cal = {}
-categories = ["School", "Work", "Party"]
+categories = ["Default"]
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -63,17 +63,17 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
+
 chan = 'general'
 
 
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
+    global chan
     msg_action = json.loads(request.form["payload"])
 
     # Make new event button press
-    print(msg_action.get("actions")[0])
-    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['block_id'] == 'msg_new_buttons'):
-        global chan
+    if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
         chan = msg_action.get("channel")
         client.views_open(
             trigger_id=msg_action["trigger_id"],
@@ -121,7 +121,17 @@ def action_handler():
                 end_date.hour) + ":" + str(end_date.minute)
         )
         print(cal)
-
+    # Make new category button press
+    elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
+        chan = msg_action.get("channel")
+        client.views_open(
+            trigger_id=msg_action["trigger_id"],
+            view=blocks.make_new_cat_modal
+        )
+    # After submission of new category, save the result in 'categories'
+    elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
+        name = msg_action.get('view')['state']
+        print(name)
     return make_response("", 200)
 
 
