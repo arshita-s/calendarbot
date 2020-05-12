@@ -137,13 +137,12 @@ def action_handler():
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_cat_modal
         )
-        response = {
-            'response_type': 'ephemeral',
-            'text': '',
-            'replace_original': True,
-            'delete_original': True
-        }
-        return make_response(response, 200)
+        client.chat_postMessage(
+            channel=chan,
+            response_type='ephemeral',
+            replace_original=True,
+            text="Creating new category..."
+        )
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']
