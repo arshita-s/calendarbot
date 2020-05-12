@@ -71,14 +71,16 @@ chan = 'general'
 def action_handler():
     global chan
     msg_action = json.loads(request.form["payload"])
-
+    print(msg_action)
     # Make new event button press
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
         chan = msg_action.get("channel")
+        #m_ts = msg_action
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
+        client.chat_update()
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
