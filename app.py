@@ -74,13 +74,16 @@ def action_handler():
     print(msg_action)
     # Make new event button press
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
-        chan = msg_action.get("channel")
-        #m_ts = msg_action
+        m_ts = msg_action.get('container')['message_ts']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
-        client.chat_update()
+        client.chat_update(
+            ts=m_ts,
+            channel=chan,
+            text="Creating your event..."
+        )
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
@@ -125,10 +128,15 @@ def action_handler():
         print(cal)
     # Make new category button press
     elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
-        chan = msg_action.get("channel")
+        m_ts = msg_action.get('container')['message_ts']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_cat_modal
+        )
+        client.chat_update(
+            ts=m_ts,
+            channel=chan,
+            text="Creating your category..."
         )
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
