@@ -141,7 +141,7 @@ def action_handler():
             "delete_original": True
         }
         response_url = ub.unquote(msg_action.get('response_url'))
-        request.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']
