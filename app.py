@@ -12,6 +12,7 @@ import json
 import blocks
 import calendar
 import datetime
+import urllib.parse as ub
 
 events = list()
 cal = {}
@@ -80,13 +81,11 @@ def action_handler():
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_event_modal
         )
-        response = jsonify({
-            'response_type': 'ephemeral',
-            'text': '',
-            'replace_original': 'true',
-            'delete_original': 'true'
-        })
-        return make_response(response, 200)
+        resp = {
+            "delete_original": True
+        }
+        response_url = ub.unquote(msg_action.get('response_url'))
+        request.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
@@ -137,7 +136,11 @@ def action_handler():
             trigger_id=msg_action["trigger_id"],
             view=blocks.make_new_cat_modal
         )
-        return make_response({"delete_original": True}, 200)
+        resp = {
+            "delete_original": True
+        }
+        response_url = ub.unquote(msg_action.get('response_url'))
+        request.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']
