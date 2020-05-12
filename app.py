@@ -17,7 +17,7 @@ import urllib.parse as ub
 
 events = list()
 cal = {}
-categories = ["Default"]
+categories = ["Default", "Miscellaneous"]
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -74,9 +74,8 @@ def action_handler():
     global chan
     msg_action = json.loads(request.form["payload"])
     print(msg_action)
-    # Make new event button press
+    # Make new event button press, opens modal, deleted original message
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
-        m_ts = msg_action.get('container')['message_ts']
         chan = msg_action.get("container")['channel_id']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
@@ -129,9 +128,8 @@ def action_handler():
                 end_date.hour) + ":" + str(end_date.minute)
         )
         print(cal)
-    # Make new category button press
+    # Make new category button press, opens modal, deleted original message
     elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
-        m_ts = msg_action.get('container')['message_ts']
         chan = msg_action.get("container")['channel_id']
         client.views_open(
             trigger_id=msg_action["trigger_id"],
