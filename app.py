@@ -133,10 +133,10 @@ def action_handler():
     elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
         m_ts = msg_action.get('container')['message_ts']
         chan = msg_action.get("container")['channel_id']
-        client.views_open(
-            trigger_id=msg_action["trigger_id"],
-            view=blocks.make_new_cat_modal
-        )
+        #client.views_open(
+         #   trigger_id=msg_action["trigger_id"],
+        #    view=blocks.make_new_cat_modal
+       # )
         response = jsonify({
             'response_type': 'ephemeral',
             'text': '',
