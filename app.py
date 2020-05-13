@@ -18,6 +18,7 @@ import urllib.parse as ub
 events = list()
 cal = {}
 categories = ["Default", "Miscellaneous"]
+chan = ''
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -65,15 +66,10 @@ def event_handler():
 # Real time events
 
 # Handles button clicks
-
-chan = 'general'
-
-
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     global chan
     msg_action = json.loads(request.form["payload"])
-    print(msg_action)
     # Make new event button press, opens modal, deleted original message
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
         chan = msg_action.get("container")['channel_id']
@@ -144,6 +140,7 @@ def action_handler():
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']
         categories.append(name)
+    print(chan)
     return make_response("", 200)
 
 
