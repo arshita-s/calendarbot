@@ -53,8 +53,9 @@ def greeting():
 @app.route('/event', methods=['POST'])
 def event_handler():
     user = str(request.form.get("user_id"))
+    c_id = str(request.form.get("channel_id"))
     client.chat_postEphemeral(
-        channel='general',
+        channel=c_id,
         blocks=blocks.event_buttons,
         user=user,
         text='',
