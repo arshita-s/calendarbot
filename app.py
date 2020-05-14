@@ -160,22 +160,18 @@ def action_handler():
                 end_hour += not_12[end_am_pm]
             if day_difference.days < 0:
                 response = {
-                    "errors": [
+                    "response_action": "errors",
+                    "errors": {
                         {
-                            "name": "selected_date",
-                            "error": "The event must end after it starts."
+                            "set-date-start": "The event must end after it starts."
                         }
-                    ]
+                    }
                 }
                 return make_response(response, 200)
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
-            difference = end_date - start_date
-            # if difference.days < 0:
-            #     response = {
-            #
-            #     }
+
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
