@@ -118,10 +118,11 @@ def action_handler():
             cal[(event_name, start_date)] = (user_id, start_date, end_date, None, None)
         client.chat_postMessage(
             channel='general',
-            text=get_mention(
-                user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(
-                d) + ", " + str(y) + " from " + str(start_date.hour) + ":" + str(start_date.minute) + " until " + str(
-                end_date.hour) + ":" + str(end_date.minute)
+            # text=get_mention(
+            #     user_id) + " has created an event, " + event_name + ", on " + weekday + " " + m + " " + str(
+            #     d) + ", " + str(y) + " from " + str(start_date.hour) + ":" + str(start_date.minute) + " until " + str(
+            #     end_date.hour) + ":" + str(end_date.minute)
+            text=get_mention(user_id) + "Has created an event, " + event_name + start_date.strftime(", on %A %B %-d %Y from %-I:%M until ") + end_date.strftime("%-I:%M")
         )
         print(start_date.minute)
         print("Calendar dictionary" + str(cal))
