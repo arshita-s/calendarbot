@@ -158,7 +158,8 @@ def action_handler():
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
             categories.append(name)
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
-            print(msg_action)
+            e = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
+            print(e)
             """
             client.views_push(
                 trigger_id=msg_action.get("trigger_id"),
@@ -218,7 +219,7 @@ def populate():
                         "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                                 + end_date.strftime("%A %B %-d %Y %-I:%M")
                     },
-                    "value": "value-" + name
+                    "value": (name, start_date)
                 })
                 break
             options.append({
@@ -227,7 +228,7 @@ def populate():
                     "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
                 },
-                "value": "value-" + name
+                "value": (name, start_date)
             },)
 
     resp = {"options": options}
