@@ -170,13 +170,11 @@ def action_handler():
             e = tuple(t)
             if e in cal:
                 selected_event = cal[e]
-            client.views_update(
-                trigger_id=msg_action.get("trigger_id"),
-                view=blocks.edit_ask,
-                view_id=id,
-                hash=msg_action.get('view')['hash']
-            )
-
+            resp = {
+                "response_action": "push",
+                "view": blocks.edit_ask
+            }
+            return resp
     return make_response("", 200)
 
 
