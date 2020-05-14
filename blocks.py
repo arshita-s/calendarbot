@@ -1,5 +1,5 @@
 """
-Here are all of the blocks, views, modals, dialogs, etc.
+Here are all of the blocks, views, modals, etc.
 
 """
 

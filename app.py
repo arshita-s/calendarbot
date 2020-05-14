@@ -73,46 +73,55 @@ def action_handler():
     yes_12 = {'AM': -12, 'PM': 0}
     msg_action = json.loads(request.form["payload"])
 
+    # Button press
     if msg_action.get('type') == "block_actions":
 
-        # Make new event button press, opens modal, deleted original message
+        # Make new event button press, opens modal
         if msg_action.get("actions")[0]['action_id'] == 'event':
             chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=msg_action["trigger_id"],
+                trigger_id=id,
                 view=blocks.make_new_event_modal
             )
+            # Deletes original message
             resp = {
                 "delete_original": True
             }
             response_url = ub.unquote(msg_action.get('response_url'))
             requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
-        # Make new category button press, opens modal, deletes original message
+        # Make new category button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'category':
             chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=msg_action["trigger_id"],
+                trigger_id=id,
                 view=blocks.make_new_cat_modal
             )
+            # Deletes original message
             resp = {
                 "delete_original": True
             }
             response_url = ub.unquote(msg_action.get('response_url'))
             requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
-        # Edit event button press, opens modal, deletes original message
+        # Edit event button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'edit':
             chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=msg_action["trigger_id"],
+                trigger_id=id,
                 view=blocks.edit_event_modal
             )
+            # Deletes original message
             resp = {
                 "delete_original": True
             }
             response_url = ub.unquote(msg_action.get('response_url'))
             requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
+    # Modal submission
     elif msg_action.get("type") == "view_submission":
 
         # After submission of created event, save the details
@@ -189,18 +198,27 @@ def action_handler():
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
             categories.append(name)
+
+        # When user submits event to edit, push a new view asking what to edit in that event
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             t = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value'].split(", ")
-            id = msg_action.get('view')['id']
             t[1] = datetime.datetime.strptime(t[1], "%Y-%m-%d %H:%M:%S")
+
             e = tuple(t)
             if e in cal:
-                selected_event = cal[e]
+                print(cal[e])
+            print(e)
+            print(cal)
+
+            # Push new view to modal
             resp = {
                 "response_action": "push",
                 "view": blocks.edit_ask
             }
             return resp
+        elif msg_action.get("view")['callback_id'] == 'edit-prompt':
+            print(msg_action)
+
     return make_response("", 200)
 
 
@@ -213,13 +231,14 @@ def ask(payload):
     client.chat_postMessage(channel=cid, text="What can I do for you, " + get_mention(user_id) + "?")
 
 
-# When a user wants to create a new event, sends a request to populate categories menu
+# External source to populate select menus and such based on prior user activity
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate():
     pay = json.loads(request.form["payload"])
     action = pay.get("action_id")
     options = []
 
+    # Populate categories
     if action == 'event-category':
         for i in range(len(categories)):
             if i == len(categories) - 1:
@@ -239,6 +258,7 @@ def populate():
                 "value": "value-" + str(i)
             }, )
 
+    # Populate events to edit
     elif action == 'event-edit':
         keys = list(cal)
         for i in range(len(keys)):
@@ -267,6 +287,7 @@ def populate():
                 "value": str(name) + ", " + str(start_date)
             }, )
 
+    # Respond with list of options
     resp = {"options": options}
     return make_response(resp, 200)
 
