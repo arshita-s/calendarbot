@@ -221,7 +221,7 @@ def populate():
                         "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                                 + end_date.strftime("%A %B %-d %Y %-I:%M")
                     },
-                    "value": str(name) + "," + str(start_date)
+                    "value": str(name) + ", " + str(start_date)
                 })
                 break
             options.append({
@@ -230,7 +230,7 @@ def populate():
                     "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
                 },
-                "value": str(name) + "," + str(start_date)
+                "value": str(name) + ", " + str(start_date)
             },)
 
     resp = {"options": options}
