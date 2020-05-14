@@ -178,28 +178,32 @@ def ask(payload):
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate():
     print(json.loads(request.form["payload"]))
-    options = []
-    for i in range(len(categories)):
-        if i == len(categories)-1:
+    pay = json.loads(request.form["payload"])
+    action = pay.get("action_id")
+    if action == 'event-category':
+        options = []
+        for i in range(len(categories)):
+            if i == len(categories)-1:
+                options.append({
+                    "text": {
+                        "type": "plain_text",
+                        "text": categories[i]
+                    },
+                    "value": "value-" + str(i)
+                })
+                break
             options.append({
-                "text": {
-                    "type": "plain_text",
-                    "text": categories[i]
-                },
-                "value": "value-" + str(i)
-            })
-            break
-        options.append({
-          "text": {
-            "type": "plain_text",
-            "text": categories[i]
-          },
-          "value": "value-" + str(i)
-        },)
+              "text": {
+                "type": "plain_text",
+                "text": categories[i]
+              },
+              "value": "value-" + str(i)
+            },)
 
-    cats = {"options": options}
+        cats = {"options": options}
+        return make_response(cats, 200)
+    # elif action == 'event-category':
 
-    return make_response(cats, 200)
 
 
 if __name__ == "__main__":
