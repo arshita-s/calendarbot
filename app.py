@@ -205,6 +205,7 @@ def populate():
             print(event)
 
             start_date = cal[event][1]
+            print(start_date)
             end_date = cal[event][2]
             name = event[0]
 
