@@ -17,6 +17,7 @@ import urllib.parse as ub
 cal = {}
 categories = ["Default", "Miscellaneous"]
 chan = ''
+selected_event = tuple()
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -67,6 +68,8 @@ def event_handler():
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
     global chan
+    global selected_event
+
     msg_action = json.loads(request.form["payload"])
 
     if msg_action.get('type') == "block_actions":
@@ -164,13 +167,12 @@ def action_handler():
             t = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value'].split(", ")
             t[1] = datetime.datetime.strptime(t[1], "%Y-%m-%d %H:%M:%S")
             e = tuple(t)
-            print(e)
-            """
+            selected_event = cal[e]
             client.views_push(
                 trigger_id=msg_action.get("trigger_id"),
                 view=blocks.edit_ask
             )
-            """
+
     return make_response("", 200)
 
 
