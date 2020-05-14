@@ -324,13 +324,9 @@ make_new_event_modal = {
             }
         },
         {
-            "type": "section",
-            "block_id": "start-am-pm",
-            "text": {
-                "type": "mrkdwn",
-                "text": " "
-            },
-            "accessory": {
+            "type": "input",
+            "block_id": "end-am-pm",
+            "element": {
                 "type": "static_select",
                 "options": [
                     {
@@ -350,6 +346,11 @@ make_new_event_modal = {
                         "value": "value-1"
                     }
                 ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Time of day",
+                "emoji": True
             }
         },
         {
@@ -406,13 +407,9 @@ make_new_event_modal = {
             }
         },
         {
-            "type": "section",
+            "type": "input",
             "block_id": "end-am-pm",
-            "text": {
-                "type": "mrkdwn",
-                "text": " "
-            },
-            "accessory": {
+            "element": {
                 "type": "static_select",
                 "options": [
                     {
@@ -432,6 +429,11 @@ make_new_event_modal = {
                         "value": "value-1"
                     }
                 ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Time of day",
+                "emoji": True
             }
         },
         {
