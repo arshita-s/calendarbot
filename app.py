@@ -160,6 +160,7 @@ def action_handler():
             categories.append(name)
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             t = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value'].split(", ")
+            t[1] = datetime.datetime.strptime(t[1], "%Y-%m-%d %H:%M:%S")
             e = tuple(t)
             print(e)
             """
