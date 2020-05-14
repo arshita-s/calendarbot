@@ -69,7 +69,8 @@ def event_handler():
 def action_handler():
     global chan
     global selected_event
-
+    not_12 = {'AM': 0, 'PM': 12}
+    yes_12 = {'AM': -12, 'PM': 0}
     msg_action = json.loads(request.form["payload"])
 
     if msg_action.get('type') == "block_actions":
@@ -136,11 +137,20 @@ def action_handler():
             startdatestr = values['set-date-start']['start-date-set']['selected_date']
             enddatestr = values['set-date-end']['end-date-set']['selected_date']
             start_am_pm = values['start-am-pm']['start-am-pm-set']['selected_option']['value']
-            print(start_am_pm)
-            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
+            end_am_pm = values['end-am-pm']['end-am-pm-set']['selected_option']['value']
+            if start_hour == 12:
+                start_hour += yes_12[start_am_pm]
+            else:
+                start_hour += not_12[start_am_pm]
+            if end_hour == 12:
+                end_hour += yes_12[end_am_pm]
+            else:
+                end_hour += not_12[end_am_pm]
+            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour,
+                                                                                      minute=start_minute)
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
-
+            print(end_date-start_date)
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
@@ -155,8 +165,8 @@ def action_handler():
                 text=get_mention(user_id)
                      + " has created an event, "
                      + event_name
-                     + start_date.strftime(", from %A %B %-d, %Y at %-I:%M to ")
-                     + end_date.strftime("%A %B %-d, %Y at %-I:%M")
+                     + start_date.strftime(", from %A %B %-d, %Y at %-I:%M %p to ")
+                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
 
         # After submission of new category, save the result in 'categories'
@@ -186,6 +196,7 @@ def ask(payload):
     cid = event.get('channel')
     client.chat_postMessage(channel=cid, text="What can I do for you, " + get_mention(user_id) + "?")
 
+
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate():
@@ -195,7 +206,7 @@ def populate():
 
     if action == 'event-category':
         for i in range(len(categories)):
-            if i == len(categories)-1:
+            if i == len(categories) - 1:
                 options.append({
                     "text": {
                         "type": "plain_text",
@@ -205,12 +216,12 @@ def populate():
                 })
                 break
             options.append({
-              "text": {
-                "type": "plain_text",
-                "text": categories[i]
-              },
-              "value": "value-" + str(i)
-            },)
+                "text": {
+                    "type": "plain_text",
+                    "text": categories[i]
+                },
+                "value": "value-" + str(i)
+            }, )
 
     elif action == 'event-edit':
         keys = list(cal)
@@ -221,7 +232,7 @@ def populate():
             end_date = cal[event][2]
             name = event[0]
 
-            if i == len(cal)-1:
+            if i == len(cal) - 1:
                 options.append({
                     "text": {
                         "type": "plain_text",
@@ -238,7 +249,7 @@ def populate():
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
                 },
                 "value": str(name) + ", " + str(start_date)
-            },)
+            }, )
 
     resp = {"options": options}
     return make_response(resp, 200)
