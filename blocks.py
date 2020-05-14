@@ -325,8 +325,9 @@ make_new_event_modal = {
         },
         {
             "type": "input",
-            "block_id": "end-am-pm",
+            "block_id": "start-am-pm",
             "element": {
+                "action_id": "start-am-pm-set",
                 "type": "static_select",
                 "options": [
                     {
@@ -410,6 +411,7 @@ make_new_event_modal = {
             "type": "input",
             "block_id": "end-am-pm",
             "element": {
+                "action_id": "start-am-pm-set",
                 "type": "static_select",
                 "options": [
                     {
