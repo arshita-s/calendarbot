@@ -228,7 +228,7 @@ def populate():
             },)
             print(options)
             edits = {"options": options}
-            return make_response(edits, 200)
+            return make_response("", 200)
 
 
 if __name__ == "__main__":
