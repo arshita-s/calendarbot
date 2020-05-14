@@ -135,7 +135,7 @@ edit_ask = {
     "callback_id": "edit-prompt",
     "title": {
         "type": "plain_text",
-        "text": "Edit",
+        "text": "Edit an Event",
         "emoji": True
     },
     "submit": {
@@ -150,18 +150,11 @@ edit_ask = {
     },
     "blocks": [
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "What would you like to edit?"
-            },
-            "accessory": {
+            "type": "input",
+            "block_id": "prompt-edit",
+            "element": {
+                "action_id": "prompt",
                 "type": "static_select",
-                "placeholder": {
-                    "type": "plain_text",
-                    "text": "Select an item",
-                    "emoji": True
-                },
                 "options": [
                     {
                         "text": {
@@ -220,6 +213,11 @@ edit_ask = {
                         "value": "value-6"
                     }
                 ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "What would you like to edit?",
+                "emoji": True
             }
         }
     ]
