@@ -190,6 +190,8 @@ def action_handler():
                 "view": blocks.edit_ask
             }
             return resp
+        elif msg_action.get("view")['callback_id'] == 'edit-prompt':
+            print(msg_action)
 
     return make_response("", 200)
 
