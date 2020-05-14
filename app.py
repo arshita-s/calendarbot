@@ -123,7 +123,8 @@ def action_handler():
                 d) + ", " + str(y) + " from " + str(start_date.hour) + ":" + str(start_date.minute) + " until " + str(
                 end_date.hour) + ":" + str(end_date.minute)
         )
-        print(cal)
+        print(start_date.minute)
+        print("Calendar dictionary" + str(cal))
     # Make new category button press, opens modal, deleted original message
     elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
         chan = msg_action.get("container")['channel_id']
