@@ -331,29 +331,23 @@ make_new_event_modal = {
                 "text": " "
             },
             "accessory": {
-                "type": "radio_buttons",
-                "action_id": "s-am-pm",
-                "initial_option": {
-                    "value": "option 1",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "AM"
-                    }
-                },
+                "type": "static_select",
                 "options": [
                     {
-                        "value": "option 1",
                         "text": {
                             "type": "plain_text",
-                            "text": "AM"
-                        }
+                            "text": "AM",
+                            "emoji": True
+                        },
+                        "value": "value-0"
                     },
                     {
-                        "value": "option 2",
                         "text": {
                             "type": "plain_text",
-                            "text": "PM"
-                        }
+                            "text": "PM",
+                            "emoji": True
+                        },
+                        "value": "value-1"
                     }
                 ]
             }
@@ -419,29 +413,23 @@ make_new_event_modal = {
                 "text": " "
             },
             "accessory": {
-                "type": "radio_buttons",
-                "action_id": "e-am-pm",
-                "initial_option": {
-                    "value": "option 1",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "AM"
-                    }
-                },
+                "type": "static_select",
                 "options": [
                     {
-                        "value": "option 1",
                         "text": {
                             "type": "plain_text",
-                            "text": "AM"
-                        }
+                            "text": "AM",
+                            "emoji": True
+                        },
+                        "value": "value-0"
                     },
                     {
-                        "value": "option 2",
                         "text": {
                             "type": "plain_text",
-                            "text": "PM"
-                        }
+                            "text": "PM",
+                            "emoji": True
+                        },
+                        "value": "value-1"
                     }
                 ]
             }
