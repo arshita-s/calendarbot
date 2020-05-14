@@ -69,7 +69,8 @@ def event_handler():
 def action_handler():
     global chan
     global selected_event
-
+    not_12 = {'AM': 0, 'PM': 12}
+    yes_12 = {'AM': -12, 'PM': 0}
     msg_action = json.loads(request.form["payload"])
 
     if msg_action.get('type') == "block_actions":
@@ -136,7 +137,15 @@ def action_handler():
             startdatestr = values['set-date-start']['start-date-set']['selected_date']
             enddatestr = values['set-date-end']['end-date-set']['selected_date']
             start_am_pm = values['start-am-pm']['start-am-pm-set']['selected_option']['value']
-            print(start_am_pm)
+            end_am_pm = values['end-am-pm']['end-am-pm-set']['selected_option']['value']
+            if start_hour == 12:
+                start_hour += yes_12[start_am_pm]
+            else:
+                start_hour += not_12[start_am_pm]
+            if end_hour == 12:
+                end_hour += yes_12[end_am_pm]
+            else:
+                end_hour += not_12[end_am_pm]
             start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
