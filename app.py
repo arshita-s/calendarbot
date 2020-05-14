@@ -199,9 +199,11 @@ def populate():
         cats = {"options": options}
         return make_response(cats, 200)
     elif action == 'event-edit':
-        for i in range(len(cal)):
-            print(cal[i])
-            event = cal[i]
+        keys = list(cal)
+        for i in range(len(keys)):
+            event = keys[i]
+            print(event)
+
             start_date = cal[event][1]
             end_date = cal[event][2]
             name = event[0]
