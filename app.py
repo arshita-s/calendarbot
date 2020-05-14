@@ -115,7 +115,8 @@ def action_handler():
         if msg_action.get("view")['callback_id'] == 'make-new-event':
             values = msg_action.get('view')['state']['values']
             event_name = values['name']['name-set']['value']
-
+            print("trying to get am pm stuff")
+            print(values['start-am-pm'])
             try:
                 event_description = values['description']['description-set']['value']
             except KeyError:
