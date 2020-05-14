@@ -336,7 +336,7 @@ make_new_event_modal = {
                             "text": "AM",
                             "emoji": True
                         },
-                        "value": "value-0"
+                        "value": "AM"
                     },
                     {
                         "text": {
@@ -344,7 +344,7 @@ make_new_event_modal = {
                             "text": "PM",
                             "emoji": True
                         },
-                        "value": "value-1"
+                        "value": "PM"
                     }
                 ]
             },
@@ -411,7 +411,7 @@ make_new_event_modal = {
             "type": "input",
             "block_id": "end-am-pm",
             "element": {
-                "action_id": "start-am-pm-set",
+                "action_id": "end-am-pm-set",
                 "type": "static_select",
                 "options": [
                     {
@@ -420,7 +420,7 @@ make_new_event_modal = {
                             "text": "AM",
                             "emoji": True
                         },
-                        "value": "value-0"
+                        "value": "AM"
                     },
                     {
                         "text": {
@@ -428,7 +428,7 @@ make_new_event_modal = {
                             "text": "PM",
                             "emoji": True
                         },
-                        "value": "value-1"
+                        "value": "PM"
                     }
                 ]
             },
