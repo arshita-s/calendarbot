@@ -75,11 +75,11 @@ def action_handler():
 
     # Button press
     if msg_action.get('type') == "block_actions":
-        chan = msg_action.get("container")['channel_id']
-        id = msg_action["trigger_id"]
 
         # Make new event button press, opens modal
         if msg_action.get("actions")[0]['action_id'] == 'event':
+            chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
                 trigger_id=id,
                 view=blocks.make_new_event_modal
@@ -87,6 +87,8 @@ def action_handler():
 
         # Make new category button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'category':
+            chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
                 trigger_id=id,
                 view=blocks.make_new_cat_modal
@@ -95,6 +97,7 @@ def action_handler():
         # Edit event button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'edit':
             chan = msg_action.get("container")['channel_id']
+            id = msg_action["trigger_id"]
             client.views_open(
                 trigger_id=id,
                 view=blocks.edit_event_modal
