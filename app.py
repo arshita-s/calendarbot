@@ -60,7 +60,7 @@ def event_handler():
         user=user,
         text='',
     )
-    return ''
+    return make_response("", 200)
 
 
 # Real time events
@@ -176,7 +176,8 @@ def ask(payload):
 
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
-def populate_categories():
+def populate():
+    print(json.loads(request.form["payload"]))
     options = []
     for i in range(len(categories)):
         if i == len(categories)-1:
