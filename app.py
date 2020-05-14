@@ -174,12 +174,16 @@ def action_handler():
             categories.append(name)
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             t = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value'].split(", ")
+            id = msg_action.get('view')['id']
             t[1] = datetime.datetime.strptime(t[1], "%Y-%m-%d %H:%M:%S")
             e = tuple(t)
-            selected_event = cal[e]
-            client.views_push(
+            if e in cal:
+                selected_event = cal[e]
+            client.views_update(
                 trigger_id=msg_action.get("trigger_id"),
-                view=blocks.edit_ask
+                view=blocks.edit_ask,
+                view_id=id,
+                hash=msg_action.get('view')['hash']
             )
 
     return make_response("", 200)
