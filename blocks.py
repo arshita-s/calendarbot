@@ -85,6 +85,7 @@ edit_event_modal = {
     ]
 }
 
+
 make_new_cat_modal = {
     "type": "modal",
     "callback_id": "make-new-cat",
