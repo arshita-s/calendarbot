@@ -38,10 +38,62 @@ event_buttons = [
                     "emoji": True
                 },
                 "value": "new_category"
+            },
+            {
+                "type": "button",
+                "action_id": "edit",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit Event",
+                    "emoji": True
+                },
+                "value": "edit_event"
             }
         ]
     }
 ]
+
+edit_event_modal = {
+    "type": "modal",
+    "callback_id": "edit-an-event",
+    "title": {
+        "type": "plain_text",
+        "text": "Edit an Event",
+        "emoji": True
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": True
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": True
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "block_id": "edit",
+            "element": {
+                "type": "external_select",
+                "action_id": "event-edit",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an Event to Edit",
+                    "emoji": True
+                },
+                "min_query_length": 0
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Event",
+                "emoji": True
+            },
+            "optional": False
+        }
+    ]
+}
 
 make_new_cat_modal = {
     "type": "modal",
@@ -78,6 +130,101 @@ make_new_cat_modal = {
     ]
 }
 
+edit_ask = {
+    "type": "modal",
+    "callback_id": "edit-prompt",
+    "title": {
+        "type": "plain_text",
+        "text": "Edit",
+        "emoji": True
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": True
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": True
+    },
+    "blocks": [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "What would you like to edit?"
+            },
+            "accessory": {
+                "type": "static_select",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an item",
+                    "emoji": True
+                },
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Event Name",
+                            "emoji": True
+                        },
+                        "value": "value-0"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Start Time",
+                            "emoji": True
+                        },
+                        "value": "value-1"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "End Time",
+                            "emoji": True
+                        },
+                        "value": "value-2"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Start Date",
+                            "emoji": True
+                        },
+                        "value": "value-3"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "End Date",
+                            "emoji": True
+                        },
+                        "value": "value-4"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Description",
+                            "emoji": True
+                        },
+                        "value": "value-5"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Category",
+                            "emoji": True
+                        },
+                        "value": "value-6"
+                    }
+                ]
+            }
+        }
+    ]
+}
+
 make_new_event_modal = {
     "type": "modal",
     "callback_id": "make-new-event",
@@ -108,11 +255,11 @@ make_new_event_modal = {
         },
         {
             "type": "input",
-            "block_id": "set-date",
+            "block_id": "set-date-start",
             "element": {
                 "type": "datepicker",
                 "initial_date": current_date,
-                "action_id": "date-set",
+                "action_id": "start-date-set",
                 "placeholder": {
                     "type": "plain_text",
                     "text": "Select a Date",
@@ -121,7 +268,7 @@ make_new_event_modal = {
             },
             "label": {
                 "type": "plain_text",
-                "text": "Set Date",
+                "text": "Set Start Date",
                 "emoji": True
             }
 
@@ -210,6 +357,26 @@ make_new_event_modal = {
                     }
                 ]
             }
+        },
+        {
+            "type": "input",
+            "block_id": "set-date-end",
+            "element": {
+                "type": "datepicker",
+                "initial_date": current_date,
+                "action_id": "end-date-set",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select a Date",
+                    "emoji": True
+                }
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Set End Date",
+                "emoji": True
+            }
+
         },
         {
             "type": "section",
