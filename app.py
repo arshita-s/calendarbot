@@ -84,6 +84,12 @@ def action_handler():
                 trigger_id=id,
                 view=blocks.make_new_event_modal
             )
+            # Deletes original message
+            resp = {
+                "delete_original": True
+            }
+            response_url = ub.unquote(msg_action.get('response_url'))
+            requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
         # Make new category button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'category':
@@ -93,6 +99,12 @@ def action_handler():
                 trigger_id=id,
                 view=blocks.make_new_cat_modal
             )
+            # Deletes original message
+            resp = {
+                "delete_original": True
+            }
+            response_url = ub.unquote(msg_action.get('response_url'))
+            requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
         # Edit event button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'edit':
@@ -102,13 +114,12 @@ def action_handler():
                 trigger_id=id,
                 view=blocks.edit_event_modal
             )
-
-        # Deletes original message
-        resp = {
-            "delete_original": True
-        }
-        response_url = ub.unquote(msg_action.get('response_url'))
-        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+            # Deletes original message
+            resp = {
+                "delete_original": True
+            }
+            response_url = ub.unquote(msg_action.get('response_url'))
+            requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
     # Modal submission
     elif msg_action.get("type") == "view_submission":
