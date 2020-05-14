@@ -55,9 +55,10 @@ event_buttons = [
 
 edit_event_modal = {
     "type": "modal",
+    "callback_id": "edit-a-event",
     "title": {
         "type": "plain_text",
-        "text": "My App",
+        "text": "Edit an Event",
         "emoji": True
     },
     "submit": {
@@ -73,18 +74,26 @@ edit_event_modal = {
     "blocks": [
         {
             "type": "input",
+            "block_id": "edit",
             "element": {
-                "type": "plain_text_input"
+                "type": "external_select",
+                "action_id": "event-edit",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an Event to Edit",
+                    "emoji": True
+                },
+                "min_query_length": 0
             },
             "label": {
                 "type": "plain_text",
-                "text": "Label",
+                "text": "Event",
                 "emoji": True
-            }
+            },
+            "optional": False
         }
     ]
 }
-
 
 make_new_cat_modal = {
     "type": "modal",

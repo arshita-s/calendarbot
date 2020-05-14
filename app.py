@@ -11,11 +11,9 @@ import requests
 from slackeventsapi import SlackEventAdapter
 import json
 import blocks
-import calendar
 import datetime
 import urllib.parse as ub
 
-events = list()
 cal = {}
 categories = ["Default", "Miscellaneous"]
 chan = ''
@@ -116,8 +114,6 @@ def action_handler():
         # After submission of created event, save the details
         if msg_action.get("view")['callback_id'] == 'make-new-event':
             values = msg_action.get('view')['state']['values']
-
-            events.append(values['set-date']['date-set']['selected_date'])
             event_name = values['name']['name-set']['value']
 
             try:
@@ -177,11 +173,11 @@ def ask(payload):
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate():
-    print(json.loads(request.form["payload"]))
     pay = json.loads(request.form["payload"])
     action = pay.get("action_id")
+    options = []
+
     if action == 'event-category':
-        options = []
         for i in range(len(categories)):
             if i == len(categories)-1:
                 options.append({
@@ -202,8 +198,31 @@ def populate():
 
         cats = {"options": options}
         return make_response(cats, 200)
-    # elif action == 'event-category':
+    elif action == 'event-edit':
+        for i in range(len(cal)):
+            event = cal[i]
+            start_date = cal[event][1]
+            end_date = cal[event][2]
+            name = event[0]
 
+            if i == len(cal)-1:
+                options.append({
+                    "text": {
+                        "type": "plain_text",
+                        "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
+                                + end_date.strftime("%A %B %-d %Y %-I:%M")
+                    },
+                    "value": "value-" + name
+                })
+                break
+            options.append({
+                "text": {
+                    "type": "plain_text",
+                    "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
+                            + end_date.strftime("%A %B %-d %Y %-I:%M")
+                },
+                "value": "value-" + name
+            },)
 
 
 if __name__ == "__main__":
