@@ -173,7 +173,8 @@ def action_handler():
             client.views_update(
                 trigger_id=msg_action.get("trigger_id"),
                 view=blocks.edit_ask,
-                view_id=id
+                view_id=id,
+                hash=msg_action.get('view')['hash']
             )
 
     return make_response("", 200)
