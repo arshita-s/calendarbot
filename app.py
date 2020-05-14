@@ -129,9 +129,10 @@ def action_handler():
             start_minute = int(values['start-minute']['start-minute-set']['value'])
             end_hour = int(values['end-hour']['end-hour-set']['value'])
             end_minute = int(values['end-minute']['end-minute-set']['value'])
-            datestr = values['set-date']['date-set']['selected_date']
-            start_date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
-            end_date = datetime.datetime.strptime(datestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
+            startdatestr = values['set-date-start']['start-date-set']['selected_date']
+            enddatestr = values['set-date-end']['end-date-set']['selected_date']
+            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
+            end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
 
             if event_description and event_category:
@@ -148,17 +149,22 @@ def action_handler():
                 text=get_mention(user_id)
                      + "Has created an event, "
                      + event_name
-                     + start_date.strftime(", on %A %B %-d %Y from %-I:%M until ")
-                     + end_date.strftime("%-I:%M")
+                     + start_date.strftime(", happening from %A %B %-d, %Y at %-I:%M to ")
+                     + end_date.strftime("%A %B %-d, %Y at %-I:%M")
             )
-            print(start_date.minute)
-            print("Calendar dictionary" + str(cal))
 
         # After submission of new category, save the result in 'categories'
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
             categories.append(name)
-
+        elif msg_action.get("view")['callback_id'] == 'edit-a-event':
+            print(msg_action)
+            """
+            client.views_push(
+                trigger_id=msg_action.get("trigger_id"),
+                view=blocks.edit_ask
+            )
+            """
     return make_response("", 200)
 
 
@@ -200,10 +206,8 @@ def populate():
         keys = list(cal)
         for i in range(len(keys)):
             event = keys[i]
-            print(event)
 
             start_date = cal[event][1]
-            print(start_date)
             end_date = cal[event][2]
             name = event[0]
 
@@ -225,7 +229,7 @@ def populate():
                 },
                 "value": "value-" + name
             },)
-            print(options)
+
     resp = {"options": options}
     return make_response(resp, 200)
 
