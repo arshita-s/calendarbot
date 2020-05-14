@@ -150,7 +150,7 @@ def action_handler():
                                                                                       minute=start_minute)
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
-
+            print(end_date-start_date)
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
@@ -166,7 +166,7 @@ def action_handler():
                      + " has created an event, "
                      + event_name
                      + start_date.strftime(", from %A %B %-d, %Y at %-I:%M %p to ")
-                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p")
+                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
 
         # After submission of new category, save the result in 'categories'
