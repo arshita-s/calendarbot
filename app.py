@@ -70,7 +70,8 @@ def event_handler():
 def action_handler():
     global chan
     msg_action = json.loads(request.form["payload"])
-    # Make new event button press, opens modal, deleted original message
+
+    # Make new event button press, opens modal, deletes original message
     if msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'event'):
         chan = msg_action.get("container")['channel_id']
         client.views_open(
@@ -82,6 +83,32 @@ def action_handler():
         }
         response_url = ub.unquote(msg_action.get('response_url'))
         requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+    # Make new category button press, opens modal, deletes original message
+    elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
+        chan = msg_action.get("container")['channel_id']
+        client.views_open(
+            trigger_id=msg_action["trigger_id"],
+            view=blocks.make_new_cat_modal
+        )
+        resp = {
+            "delete_original": True
+        }
+        response_url = ub.unquote(msg_action.get('response_url'))
+        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
+    # Edit event button press, opens modal, deletes original message
+    elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'edit'):
+        chan = msg_action.get("container")['channel_id']
+        client.views_open(
+            trigger_id=msg_action["trigger_id"],
+            view=blocks.edit_event_modal
+        )
+        resp = {
+            "delete_original": True
+        }
+        response_url = ub.unquote(msg_action.get('response_url'))
+        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
     # After submission of created event, save the details
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-event':
         print(msg_action)
@@ -124,18 +151,7 @@ def action_handler():
                 end_date.hour) + ":" + str(end_date.minute)
         )
         print(cal)
-    # Make new category button press, opens modal, deleted original message
-    elif msg_action.get("type") == "block_actions" and (msg_action.get("actions")[0]['action_id'] == 'category'):
-        chan = msg_action.get("container")['channel_id']
-        client.views_open(
-            trigger_id=msg_action["trigger_id"],
-            view=blocks.make_new_cat_modal
-        )
-        resp = {
-            "delete_original": True
-        }
-        response_url = ub.unquote(msg_action.get('response_url'))
-        requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
     # After submission of new category, save the result in 'categories'
     elif msg_action.get("type") == "view_submission" and msg_action.get("view")['callback_id'] == 'make-new-cat':
         name = msg_action.get('view')['state']['values']['name']['name-set']['value']

@@ -38,10 +38,52 @@ event_buttons = [
                     "emoji": True
                 },
                 "value": "new_category"
+            },
+            {
+                "type": "button",
+                "action_id": "edit",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit Event",
+                    "emoji": True
+                },
+                "value": "edit_event"
             }
         ]
     }
 ]
+
+edit_event_modal = {
+    "type": "modal",
+    "title": {
+        "type": "plain_text",
+        "text": "My App",
+        "emoji": True
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": True
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": True
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "element": {
+                "type": "plain_text_input"
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Label",
+                "emoji": True
+            }
+        }
+    ]
+}
 
 make_new_cat_modal = {
     "type": "modal",
