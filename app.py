@@ -135,6 +135,8 @@ def action_handler():
             end_minute = int(values['end-minute']['end-minute-set']['value'])
             startdatestr = values['set-date-start']['start-date-set']['selected_date']
             enddatestr = values['set-date-end']['end-date-set']['selected_date']
+            start_am_pm = values['start-am-pm']['start-am-pm-set']['selected_option']['value']
+            print(start_am_pm)
             start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
