@@ -138,6 +138,9 @@ def action_handler():
             enddatestr = values['set-date-end']['end-date-set']['selected_date']
             start_am_pm = values['start-am-pm']['start-am-pm-set']['selected_option']['value']
             end_am_pm = values['end-am-pm']['end-am-pm-set']['selected_option']['value']
+            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d')
+            end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d')
+            day_difference = end_date - start_date
             if start_hour == 12:
                 start_hour += yes_12[start_am_pm]
             else:
@@ -146,12 +149,24 @@ def action_handler():
                 end_hour += yes_12[end_am_pm]
             else:
                 end_hour += not_12[end_am_pm]
-            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour,
-                                                                                      minute=start_minute)
-            end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
+            if day_difference.days < 0:
+                response = {
+                    "errors": [
+                        {
+                            "name": "selected_date",
+                            "error": "The event must end after it starts."
+                        }
+                    ]
+                }
+                return make_response(response, 200)
+            start_date = start_date.replace(hour=start_hour, minute=start_minute)
+            end_date = end_date.replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
             difference = end_date - start_date
-            print(type(difference))
+            # if difference.days < 0:
+            #     response = {
+            #
+            #     }
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
