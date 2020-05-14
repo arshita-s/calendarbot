@@ -146,7 +146,8 @@ def action_handler():
                 end_hour += yes_12[end_am_pm]
             else:
                 end_hour += not_12[end_am_pm]
-            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour, minute=start_minute)
+            start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d').replace(hour=start_hour,
+                                                                                      minute=start_minute)
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d').replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
 
@@ -164,8 +165,8 @@ def action_handler():
                 text=get_mention(user_id)
                      + " has created an event, "
                      + event_name
-                     + start_date.strftime(", from %A %B %-d, %Y at %-I:%M to ")
-                     + end_date.strftime("%A %B %-d, %Y at %-I:%M")
+                     + start_date.strftime(", from %A %B %-d, %Y at %-I:%M %p to ")
+                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p")
             )
 
         # After submission of new category, save the result in 'categories'
@@ -197,6 +198,7 @@ def ask(payload):
     cid = event.get('channel')
     client.chat_postMessage(channel=cid, text="What can I do for you, " + get_mention(user_id) + "?")
 
+
 # When a user wants to create a new event, sends a request to populate categories menu
 @app.route('/options-load-endpoint', methods=['POST'])
 def populate():
@@ -206,7 +208,7 @@ def populate():
 
     if action == 'event-category':
         for i in range(len(categories)):
-            if i == len(categories)-1:
+            if i == len(categories) - 1:
                 options.append({
                     "text": {
                         "type": "plain_text",
@@ -216,12 +218,12 @@ def populate():
                 })
                 break
             options.append({
-              "text": {
-                "type": "plain_text",
-                "text": categories[i]
-              },
-              "value": "value-" + str(i)
-            },)
+                "text": {
+                    "type": "plain_text",
+                    "text": categories[i]
+                },
+                "value": "value-" + str(i)
+            }, )
 
     elif action == 'event-edit':
         keys = list(cal)
@@ -232,7 +234,7 @@ def populate():
             end_date = cal[event][2]
             name = event[0]
 
-            if i == len(cal)-1:
+            if i == len(cal) - 1:
                 options.append({
                     "text": {
                         "type": "plain_text",
@@ -249,7 +251,7 @@ def populate():
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
                 },
                 "value": str(name) + ", " + str(start_date)
-            },)
+            }, )
 
     resp = {"options": options}
     return make_response(resp, 200)
