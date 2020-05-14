@@ -147,9 +147,9 @@ def action_handler():
             client.chat_postMessage(
                 channel='general',
                 text=get_mention(user_id)
-                     + "Has created an event, "
+                     + " has created an event, "
                      + event_name
-                     + start_date.strftime(", happening from %A %B %-d, %Y at %-I:%M to ")
+                     + start_date.strftime(", from %A %B %-d, %Y at %-I:%M to ")
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M")
             )
 
@@ -157,7 +157,7 @@ def action_handler():
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
             categories.append(name)
-        elif msg_action.get("view")['callback_id'] == 'edit-a-event':
+        elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             print(msg_action)
             """
             client.views_push(
