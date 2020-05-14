@@ -196,8 +196,6 @@ def populate():
               "value": "value-" + str(i)
             },)
 
-        cats = {"options": options}
-        return make_response(cats, 200)
     elif action == 'event-edit':
         keys = list(cal)
         for i in range(len(keys)):
@@ -228,8 +226,8 @@ def populate():
                 "value": "value-" + name
             },)
             print(options)
-            edits = {"options": options}
-            return make_response("", 200)
+    resp = {"options": options}
+    return make_response(resp, 200)
 
 
 if __name__ == "__main__":
