@@ -116,7 +116,7 @@ def action_handler():
             values = msg_action.get('view')['state']['values']
             event_name = values['name']['name-set']['value']
             print("trying to get am pm stuff")
-            print(values['start-am-pm'])
+            print(values)
             try:
                 event_description = values['description']['description-set']['value']
             except KeyError:
