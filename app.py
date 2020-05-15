@@ -162,9 +162,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        {
                             "set-date-start": "The event must end after it starts."
-                        }
                     }
                 }
                 return response
@@ -212,6 +210,7 @@ def action_handler():
                 "view": blocks.edit_ask
             }
             return resp
+
         elif msg_action.get("view")['callback_id'] == 'edit-prompt':
             values = msg_action.get("view")['state']['values']
             resp = {}
