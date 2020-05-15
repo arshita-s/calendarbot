@@ -189,7 +189,7 @@ def action_handler():
                      + start_date.strftime(", from %A %B %-d, %Y at %-I:%M %p to ")
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
-
+            print(cal)
         # After submission of new category, save the result in 'categories'
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
@@ -211,7 +211,6 @@ def action_handler():
         elif msg_action.get("view")['callback_id'] == 'edit-prompt':
             values = msg_action.get("view")['state']['values']
             resp = {}
-            print(values)
             to_edit = values['prompt-edit']['prompt']['selected_option']['text']['text']
 
             if to_edit == 'Event Name':
