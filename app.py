@@ -158,19 +158,19 @@ def action_handler():
                 end_hour += yes_12[end_am_pm]
             else:
                 end_hour += not_12[end_am_pm]
+            start_date = start_date.replace(hour=start_hour, minute=start_minute)
+            end_date = end_date.replace(hour=end_hour, minute=end_minute)
             if day_difference.days < 0:
                 print('ERROR')
                 response = {
                     "response_action": "errors",
                     "errors": {
                         {
-                            "set-date-start": "The event must end after it starts."
+                            "set-date-end": "The event must end after it starts."
                         }
                     }
                 }
                 return response
-            start_date = start_date.replace(hour=start_hour, minute=start_minute)
-            end_date = end_date.replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
 
             if event_description and event_category:
