@@ -149,7 +149,6 @@ def action_handler():
             end_am_pm = values['end-am-pm']['end-am-pm-set']['selected_option']['value']
             start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d')
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d')
-            day_difference = end_date - start_date
             if start_hour == 12:
                 start_hour += yes_12[start_am_pm]
             else:
@@ -160,7 +159,8 @@ def action_handler():
                 end_hour += not_12[end_am_pm]
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
-            if day_difference.days < 0 or day_difference.seconds < 0:
+            day_difference = end_date - start_date
+            if day_difference.days < 0:
                 response = {
                     "response_action": "errors",
                     "errors": {
