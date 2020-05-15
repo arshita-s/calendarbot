@@ -167,7 +167,7 @@ def action_handler():
                         }
                     }
                 }
-                return make_response(response, 200)
+                return response
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
             user_id = msg_action.get('user')['id']
