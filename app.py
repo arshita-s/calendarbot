@@ -17,7 +17,6 @@ import urllib.parse as ub
 cal = {}
 categories = ["Default", "Miscellaneous"]
 chan = ''
-selected_event = tuple()
 counter = 0
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
