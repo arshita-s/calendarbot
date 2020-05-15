@@ -266,7 +266,7 @@ def action_handler():
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
             print(msg_action)
-            selected_event = key
+            selected_event = int(key)
             print(selected_event)
             # Push new view to modal
             resp = {
