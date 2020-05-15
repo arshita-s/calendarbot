@@ -67,8 +67,8 @@ def event_handler():
 # Handles button clicks
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
-    global chan
-    global selected_event
+    global chan, selected_event
+
     not_12 = {'AM': 0, 'PM': 12}
     yes_12 = {'AM': -12, 'PM': 0}
     msg_action = json.loads(request.form["payload"])
@@ -213,8 +213,48 @@ def action_handler():
             }
             return resp
         elif msg_action.get("view")['callback_id'] == 'edit-prompt':
-            print(msg_action)
+            values = msg_action.get("view")['state']['values']
+            resp = {}
+            print(values)
+            to_edit = values['prompt-edit']['prompt']['selected_option']['text']['text']
 
+            if to_edit == 'Event Name':
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.event_name
+                }
+            elif to_edit == 'Start Time':
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+            elif to_edit == 'End Time':
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+            elif to_edit == "Start Date":
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+            elif to_edit == "End Date":
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+            elif to_edit == "Category":
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+            elif to_edit == "Description":
+                resp = {
+                    "response_action": "push",
+                    "view": blocks.edit_ask
+                }
+
+            return resp
 
     return make_response("", 200)
 

@@ -53,6 +53,203 @@ event_buttons = [
     }
 ]
 
+event_name = {
+    "type": "modal",
+    "callback_id": "edit-name",
+    "title": {
+        "type": "plain_text",
+        "text": "Create a New Event"
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit"
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel"
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "block_id": "name",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "name-set"
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Event Name"
+            }
+        }
+    ]
+}
+
+start_time = {
+    "type": "modal",
+    "callback_id": "edit-start-time",
+    "title": {
+        "type": "plain_text",
+        "text": "Create a New Event"
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit"
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel"
+    },
+    "blocks": [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Select a Start Time*"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-hour",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "start-hour-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Start Hour"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-minute",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "start-minute-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Start Minute"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-am-pm",
+            "element": {
+                "action_id": "start-am-pm-set",
+                "type": "static_select",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "AM",
+                            "emoji": True
+                        },
+                        "value": "AM"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "PM",
+                            "emoji": True
+                        },
+                        "value": "PM"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Time of day",
+                "emoji": True
+            }
+        }
+    ]
+}
+
+end_time = {
+    "type": "modal",
+    "callback_id": "edit-end-time",
+    "title": {
+        "type": "plain_text",
+        "text": "Create a New Event"
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit"
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel"
+    },
+    "blocks": [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Select a Start Time*"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-hour",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "start-hour-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Start Hour"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-minute",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "start-minute-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Start Minute"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "start-am-pm",
+            "element": {
+                "action_id": "start-am-pm-set",
+                "type": "static_select",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "AM",
+                            "emoji": True
+                        },
+                        "value": "AM"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "PM",
+                            "emoji": True
+                        },
+                        "value": "PM"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Time of day",
+                "emoji": True
+            }
+        }
+    ]
+}
+
 edit_event_modal = {
     "type": "modal",
     "callback_id": "edit-an-event",
