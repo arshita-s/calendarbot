@@ -138,11 +138,78 @@ def action_handler():
                 event_category = values['category']['event-category']['selected_option']['text']['text']
             except KeyError:
                 event_category = None
-
-            start_hour = int(values['start-hour']['start-hour-set']['value'])
-            start_minute = int(values['start-minute']['start-minute-set']['value'])
-            end_hour = int(values['end-hour']['end-hour-set']['value'])
-            end_minute = int(values['end-minute']['end-minute-set']['value'])
+            try:
+                start_hour = int(values['start-hour']['start-hour-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "start-hour-set": "Invalid value"
+                    }
+                }
+                return response
+            if start_hour not in range(1, 24):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "start-hour-set": "Invalid value"
+                    }
+                }
+                return response
+            try:
+                start_minute = int(values['start-minute']['start-minute-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "start-minute-set": "Invalid value"
+                    }
+                }
+                return response
+            if start_minute not in range(0, 60):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "start-minute-set": "Invalid value"
+                    }
+                }
+                return response
+            try:
+                end_hour = int(values['end-hour']['end-hour-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "end-hour-set": "The event must end after it starts."
+                    }
+                }
+                return response
+            if end_hour not in range(1, 24):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "end-hour-set": "Invalid value"
+                    }
+                }
+                return response
+            try:
+                end_minute = int(values['end-minute']['end-minute-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "end-minute-set": "Invalid value"
+                    }
+                }
+                return response
+            if end_minute not in range(0, 60):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "end-minute-set": "Invalid value"
+                    }
+                }
+                return response
             startdatestr = values['set-date-start']['start-date-set']['selected_date']
             enddatestr = values['set-date-end']['end-date-set']['selected_date']
             start_am_pm = values['start-am-pm']['start-am-pm-set']['selected_option']['value']
@@ -160,16 +227,16 @@ def action_handler():
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
             day_difference = end_date - start_date
+            print(day_difference)
             if day_difference.days < 0:
                 response = {
                     "response_action": "errors",
                     "errors": {
-                            "set-date-end": "The event must end after it starts."
+                        "set-date-end": "The event must end after it starts."
                     }
                 }
                 return response
             user_id = msg_action.get('user')['id']
-            print(day_difference)
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
