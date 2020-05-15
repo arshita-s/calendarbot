@@ -318,13 +318,8 @@ def action_handler():
 
             return resp
         elif msg_action.get('view')['callback_id'] == 'edit-name':
-            event = cal[selected_event]
-            user_id = event[0]
-            name = ''
-            start_date = event[2]
-            end_date = event[3]
-            event_description = event[4]
-            event_category = event[5]
+            event = cal.get(selected_event)
+
             print(msg_action)
 
     return make_response("", 200)
