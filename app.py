@@ -13,7 +13,6 @@ import json
 import blocks
 import datetime
 import urllib.parse as ub
-import secrets
 
 cal = {}
 categories = ["Default", "Miscellaneous"]
@@ -43,9 +42,9 @@ def get_mention(user):
 # greeting message from calendarbot
 @slack_events_adapter.on('team_join')
 def greeting():
-    botID = 'U0133U2QXCL'
+    bot_id = 'U0133U2QXCL'
     client.chat_postMessage(channel="general",
-                            text="Hello, this is your " + get_mention(botID) + ". :calendar:")
+                            text="Hello, this is your " + get_mention(bot_id) + ". :calendar:")
 
 
 # Slash commands
@@ -81,9 +80,9 @@ def action_handler():
         # Make new event button press, opens modal
         if msg_action.get("actions")[0]['action_id'] == 'event':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.make_new_event_modal
             )
             # Deletes original message
@@ -96,9 +95,9 @@ def action_handler():
         # Make new category button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'category':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.make_new_cat_modal
             )
             # Deletes original message
@@ -111,9 +110,9 @@ def action_handler():
         # Edit event button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'edit':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.edit_event_modal
             )
             # Deletes original message
@@ -253,7 +252,14 @@ def action_handler():
 
             return resp
         elif msg_action.get('view')['callback_id'] == 'edit-name':
-            print("brah moment")
+            event = cal[selected_event]
+            user_id = event[0]
+            name = ''
+            start_date = event[2]
+            end_date = event[3]
+            event_description = event[4]
+            event_category = event[5]
+            print(msg_action)
 
     return make_response("", 200)
 
