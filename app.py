@@ -18,6 +18,7 @@ cal = {}
 categories = ["Default", "Miscellaneous"]
 chan = ''
 selected_event = tuple()
+counter = 0
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
@@ -41,9 +42,9 @@ def get_mention(user):
 # greeting message from calendarbot
 @slack_events_adapter.on('team_join')
 def greeting():
-    botID = 'U0133U2QXCL'
+    bot_id = 'U0133U2QXCL'
     client.chat_postMessage(channel="general",
-                            text="Hello, this is your " + get_mention(botID) + ". :calendar:")
+                            text="Hello, this is your " + get_mention(bot_id) + ". :calendar:")
 
 
 # Slash commands
@@ -67,7 +68,7 @@ def event_handler():
 # Handles button clicks
 @app.route('/slack/actions', methods=['POST'])
 def action_handler():
-    global chan, selected_event
+    global chan, selected_event, counter
 
     not_12 = {'AM': 0, 'PM': 12}
     yes_12 = {'AM': -12, 'PM': 0}
@@ -79,9 +80,9 @@ def action_handler():
         # Make new event button press, opens modal
         if msg_action.get("actions")[0]['action_id'] == 'event':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.make_new_event_modal
             )
             # Deletes original message
@@ -94,9 +95,9 @@ def action_handler():
         # Make new category button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'category':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.make_new_cat_modal
             )
             # Deletes original message
@@ -109,9 +110,9 @@ def action_handler():
         # Edit event button press, opens modal
         elif msg_action.get("actions")[0]['action_id'] == 'edit':
             chan = msg_action.get("container")['channel_id']
-            id = msg_action["trigger_id"]
+            t_id = msg_action["trigger_id"]
             client.views_open(
-                trigger_id=id,
+                trigger_id=t_id,
                 view=blocks.edit_event_modal
             )
             # Deletes original message
@@ -238,13 +239,14 @@ def action_handler():
                 return response
             user_id = msg_action.get('user')['id']
             if event_description and event_category:
-                cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
+                cal[counter] = (user_id, event_name, start_date, end_date, event_description, event_category)
             elif event_category:
-                cal[(event_name, start_date)] = (user_id, start_date, end_date, None, event_category)
+                cal[counter] = (user_id, event_name, start_date, end_date, None, event_category)
             elif event_description:
-                cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, None)
+                cal[counter] = (user_id, event_name, start_date, end_date, event_description, None)
             else:
-                cal[(event_name, start_date)] = (user_id, start_date, end_date, None, None)
+                cal[counter] = (user_id, event_name, start_date, end_date, None, None)
+            counter += 1
 
             client.chat_postMessage(
                 channel='general',
@@ -262,14 +264,9 @@ def action_handler():
 
         # When user submits event to edit, push a new view asking what to edit in that event
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
-            t = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value'].split(", ")
-            t[1] = datetime.datetime.strptime(t[1], "%Y-%m-%d %H:%M:%S")
+            key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
 
-            e = tuple(t)
-            if e in cal:
-                print(cal[e])
-            print(e)
-            print(cal)
+            selected_event = key
 
             # Push new view to modal
             resp = {
@@ -321,6 +318,15 @@ def action_handler():
                 }
 
             return resp
+        elif msg_action.get('view')['callback_id'] == 'edit-name':
+            event = cal[selected_event]
+            user_id = event[0]
+            name = ''
+            start_date = event[2]
+            end_date = event[3]
+            event_description = event[4]
+            event_category = event[5]
+            print(msg_action)
 
     return make_response("", 200)
 
@@ -367,9 +373,9 @@ def populate():
         for i in range(len(keys)):
             event = keys[i]
 
-            start_date = cal[event][1]
-            end_date = cal[event][2]
-            name = event[0]
+            name = cal[event][1]
+            start_date = cal[event][2]
+            end_date = cal[event][3]
 
             if i == len(cal) - 1:
                 options.append({
@@ -378,7 +384,7 @@ def populate():
                         "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                                 + end_date.strftime("%A %B %-d %Y %-I:%M")
                     },
-                    "value": str(name) + ", " + str(start_date)
+                    "value": str(keys[i])
                 })
                 break
             options.append({
@@ -387,7 +393,7 @@ def populate():
                     "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
                 },
-                "value": str(name) + ", " + str(start_date)
+                "value": str(keys[i])
             }, )
 
     # Respond with list of options
