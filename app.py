@@ -164,7 +164,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                            "set-date-start": "The event must end after it starts."
+                            "set-date-end": "The event must end after it starts."
                     }
                 }
                 return response
