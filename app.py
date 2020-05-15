@@ -18,6 +18,7 @@ cal = {}
 categories = ["Default", "Miscellaneous"]
 chan = ''
 counter = 0
+selected_Event = int()
 
 SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
 SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
