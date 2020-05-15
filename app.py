@@ -159,6 +159,7 @@ def action_handler():
             else:
                 end_hour += not_12[end_am_pm]
             if day_difference.days < 0:
+                print('ERROR')
                 response = {
                     "response_action": "errors",
                     "errors": {
