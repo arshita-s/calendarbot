@@ -265,9 +265,9 @@ def action_handler():
         # When user submits event to edit, push a new view asking what to edit in that event
         elif msg_action.get("view")['callback_id'] == 'edit-an-event':
             key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
-
+            print(msg_action)
             selected_event = key
-
+            print(selected_event)
             # Push new view to modal
             resp = {
                 "response_action": "push",
