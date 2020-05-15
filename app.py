@@ -169,7 +169,7 @@ def action_handler():
                 }
                 return response
             user_id = msg_action.get('user')['id']
-
+            print(day_difference.days)
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
