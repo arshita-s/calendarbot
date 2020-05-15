@@ -151,7 +151,6 @@ def action_handler():
             end_am_pm = values['end-am-pm']['end-am-pm-set']['selected_option']['value']
             start_date = datetime.datetime.strptime(startdatestr, '%Y-%m-%d')
             end_date = datetime.datetime.strptime(enddatestr, '%Y-%m-%d')
-            day_difference = end_date - start_date
             if start_hour == 12:
                 start_hour += yes_12[start_am_pm]
             else:
@@ -162,6 +161,7 @@ def action_handler():
                 end_hour += not_12[end_am_pm]
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
+            day_difference = end_date - start_date
             if day_difference.days < 0:
                 response = {
                     "response_action": "errors",
@@ -171,7 +171,7 @@ def action_handler():
                 }
                 return response
             user_id = msg_action.get('user')['id']
-            print(day_difference.days)
+            print(day_difference)
             if event_description and event_category:
                 cal[counter] = (user_id, event_name, start_date, end_date, event_description, event_category)
             elif event_category:
