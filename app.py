@@ -160,7 +160,7 @@ def action_handler():
                 end_hour += not_12[end_am_pm]
             start_date = start_date.replace(hour=start_hour, minute=start_minute)
             end_date = end_date.replace(hour=end_hour, minute=end_minute)
-            if day_difference.days < 0:
+            if day_difference.days < 0 or day_difference.seconds < 0:
                 response = {
                     "response_action": "errors",
                     "errors": {
@@ -169,7 +169,7 @@ def action_handler():
                 }
                 return response
             user_id = msg_action.get('user')['id']
-            print(day_difference.days)
+            print(day_difference)
             if event_description and event_category:
                 cal[(event_name, start_date)] = (user_id, start_date, end_date, event_description, event_category)
             elif event_category:
