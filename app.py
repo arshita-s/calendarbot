@@ -20,9 +20,9 @@ chan = ''
 counter = 0
 selected_event = int()
 
-SLACK_BOT_TOKEN = 'xoxb-1101498483268-1105954847428-uwiOHt0WpJ42LjEXRHnZf5bf'
-SLACK_VERIFY = 'lhbdgYshgpvXAtiqQ733M55e'
-SLACK_SIGNING_SECRET = '6ee8492929d135bf1ba948350114e6f4'
+SLACK_BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
+SLACK_VERIFY = os.environ.get('SLACK_VERIFY')
+SLACK_SIGNING_SECRET = os.environ.get('SLACK_SIGNING_SECRET')
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 
