@@ -147,7 +147,7 @@ def action_handler():
                     }
                 }
                 return response
-            if start_hour not in range(1, 24):
+            if start_hour not in range(1, 13):
                 response = {
                     "response_action": "errors",
                     "errors": {
@@ -183,7 +183,7 @@ def action_handler():
                     }
                 }
                 return response
-            if end_hour not in range(1, 24):
+            if end_hour not in range(1, 13):
                 response = {
                     "response_action": "errors",
                     "errors": {
@@ -326,6 +326,14 @@ def action_handler():
             event_category = event[5]
 
             cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
+        elif msg_action.get('view')['callback_id'] == 'reminder':
+            key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
+            selected_event = int(key)
+            resp = {
+                "response_action": "push",
+                "view": blocks.set_reminder_modal
+            }
+            return resp
 
     return make_response("", 200)
 
