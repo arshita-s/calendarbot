@@ -249,7 +249,7 @@ def action_handler():
             counter += 1
 
             client.chat_postMessage(
-                channel='general',
+                channel=chan,
                 text=get_mention(user_id)
                      + " has created an event, "
                      + event_name
@@ -275,6 +275,7 @@ def action_handler():
             }
             return resp
 
+        # Pushes modal based on what the user wants to edit
         elif msg_action.get("view")['callback_id'] == 'edit-prompt':
             values = msg_action.get("view")['state']['values']
             resp = {}
@@ -288,7 +289,7 @@ def action_handler():
             elif to_edit == 'Start Time':
                 resp = {
                     "response_action": "push",
-                    "view": blocks.edit_ask
+                    "view": blocks.start_time
                 }
             elif to_edit == 'End Time':
                 resp = {
@@ -317,10 +318,14 @@ def action_handler():
                 }
 
             return resp
+
+        # Changes the name based on what the user has entered
         elif msg_action.get('view')['callback_id'] == 'edit-name':
+            print(msg_action)
             event = cal.get(selected_event)
 
             user_id = event[0]
+            orig = event[1]
             name = msg_action['view']['state']['values']['name']['name-set']['value']
             start_date = event[2]
             end_date = event[3]
@@ -328,6 +333,14 @@ def action_handler():
             event_category = event[5]
 
             cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
+            client.chat_postMessage(
+                channel=chan,
+                text=get_mention(user_id)
+                     + " has changed the name of event, " + orig + ", to "
+                     + name
+                     + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
+                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
+            )
 
     return make_response("", 200)
 

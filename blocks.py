@@ -58,7 +58,7 @@ event_name = {
     "callback_id": "edit-name",
     "title": {
         "type": "plain_text",
-        "text": "Create a New Event"
+        "text": "Edit Name"
     },
     "submit": {
         "type": "plain_text",
@@ -80,6 +80,27 @@ event_name = {
                 "type": "plain_text",
                 "text": "Event Name"
             }
+        },
+        {
+            "type": "input",
+            "element": {
+                "type": "checkboxes",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Notify Channel",
+                            "emoji": True
+                        },
+                        "value": "notify-chan"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Label",
+                "emoji": True
+            }
         }
     ]
 }
@@ -89,7 +110,7 @@ start_time = {
     "callback_id": "edit-start-time",
     "title": {
         "type": "plain_text",
-        "text": "Create a New Event"
+        "text": "Edit Start Time"
     },
     "submit": {
         "type": "plain_text",
@@ -104,7 +125,7 @@ start_time = {
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "*Select a Start Time*"
+                "text": "*Select a New Start Time*"
             }
         },
         {
