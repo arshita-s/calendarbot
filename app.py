@@ -353,6 +353,15 @@ def action_handler():
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
 
+        elif msg_action.get('view')['callback_id'] == 'reminder':
+            key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
+            selected_event = int(key)
+            resp = {
+                "response_action": "push",
+                "view": blocks.set_reminder_modal
+            }
+            return resp
+
     return make_response("", 200)
 
 
