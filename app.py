@@ -129,8 +129,6 @@ def action_handler():
         if msg_action.get("view")['callback_id'] == 'make-new-event':
             values = msg_action.get('view')['state']['values']
             event_name = values['name']['name-set']['value']
-            print("trying to get am pm stuff")
-            print(values)
             try:
                 event_description = values['description']['description-set']['value']
             except KeyError:
@@ -145,7 +143,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "start-hour-set": "Invalid value"
+                        "start-hour": "Invalid value"
                     }
                 }
                 return response
@@ -153,7 +151,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "start-hour-set": "Invalid value"
+                        "start-hour": "Invalid value"
                     }
                 }
                 return response
@@ -163,7 +161,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "start-minute-set": "Invalid value"
+                        "start-minute": "Invalid value"
                     }
                 }
                 return response
@@ -171,7 +169,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "start-minute-set": "Invalid value"
+                        "start-minute": "Invalid value"
                     }
                 }
                 return response
@@ -181,7 +179,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "end-hour-set": "The event must end after it starts."
+                        "end-hour": "Invalid value"
                     }
                 }
                 return response
@@ -189,7 +187,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "end-hour-set": "Invalid value"
+                        "end-hour": "Invalid value"
                     }
                 }
                 return response
@@ -199,7 +197,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "end-minute-set": "Invalid value"
+                        "end-minute": "Invalid value"
                     }
                 }
                 return response
@@ -207,7 +205,7 @@ def action_handler():
                 response = {
                     "response_action": "errors",
                     "errors": {
-                        "end-minute-set": "Invalid value"
+                        "end-minute": "Invalid value"
                     }
                 }
                 return response
