@@ -127,7 +127,7 @@ def action_handler():
             t_id = msg_action["trigger_id"]
             client.views_open(
                 trigger_id=t_id,
-                view=blocks.edit_event_modal
+                view=blocks.reminder_modal
             )
             resp = {
                 "delete_original": True
@@ -260,7 +260,7 @@ def action_handler():
             counter += 1
 
             client.chat_postMessage(
-                channel=chan,
+                channel='general',
                 text=get_mention(user_id)
                      + " has created an event, "
                      + event_name
