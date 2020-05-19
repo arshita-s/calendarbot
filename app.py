@@ -122,6 +122,19 @@ def action_handler():
             response_url = ub.unquote(msg_action.get('response_url'))
             requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
+        elif msg_action.get('actions')[0]['action_id'] == 'remind':
+            chan = msg_action.get("container")['channel_id']
+            t_id = msg_action["trigger_id"]
+            client.views_open(
+                trigger_id=t_id,
+                view=blocks.edit_event_modal
+            )
+            resp = {
+                "delete_original": True
+            }
+            response_url = ub.unquote(msg_action.get('response_url'))
+            requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
     # Modal submission
     elif msg_action.get("type") == "view_submission":
 
@@ -339,14 +352,6 @@ def action_handler():
                      + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
-        elif msg_action.get('view')['callback_id'] == 'reminder':
-            key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
-            selected_event = int(key)
-            resp = {
-                "response_action": "push",
-                "view": blocks.set_reminder_modal
-            }
-            return resp
 
     return make_response("", 200)
 
