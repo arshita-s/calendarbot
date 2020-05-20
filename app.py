@@ -122,6 +122,19 @@ def action_handler():
             response_url = ub.unquote(msg_action.get('response_url'))
             requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
 
+        elif msg_action.get('actions')[0]['action_id'] == 'remind':
+            chan = msg_action.get("container")['channel_id']
+            t_id = msg_action["trigger_id"]
+            client.views_open(
+                trigger_id=t_id,
+                view=blocks.reminder_modal
+            )
+            resp = {
+                "delete_original": True
+            }
+            response_url = ub.unquote(msg_action.get('response_url'))
+            requests.post(response_url, headers={"content-type": "application/json"}, data=json.dumps(resp))
+
     # Modal submission
     elif msg_action.get("type") == "view_submission":
 
@@ -147,7 +160,7 @@ def action_handler():
                     }
                 }
                 return response
-            if start_hour not in range(1, 24):
+            if start_hour not in range(1, 13):
                 response = {
                     "response_action": "errors",
                     "errors": {
@@ -183,7 +196,7 @@ def action_handler():
                     }
                 }
                 return response
-            if end_hour not in range(1, 24):
+            if end_hour not in range(1, 13):
                 response = {
                     "response_action": "errors",
                     "errors": {
@@ -247,7 +260,7 @@ def action_handler():
             counter += 1
 
             client.chat_postMessage(
-                channel=chan,
+                channel='general',
                 text=get_mention(user_id)
                      + " has created an event, "
                      + event_name
@@ -355,6 +368,15 @@ def action_handler():
                          + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
                 )
 
+        elif msg_action.get('view')['callback_id'] == 'reminder':
+            key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
+            selected_event = int(key)
+            resp = {
+                "response_action": "push",
+                "view": blocks.set_reminder_modal
+            }
+            return resp
+
     return make_response("", 200)
 
 
@@ -419,6 +441,28 @@ def populate():
                     "type": "plain_text",
                     "text": name + "; " + start_date.strftime("%A %B %-d %Y %-I:%M - ")
                             + end_date.strftime("%A %B %-d %Y %-I:%M")
+                },
+                "value": str(keys[i])
+            }, )
+
+    elif action == 'event-reminder':
+        keys = list(cal)
+        for i in range(len(keys)):
+            event = keys[i]
+
+            if i == len(cal) - 1:
+                options.append({
+                    "text": {
+                        "type": "plain_text",
+                        "text": cal[event][1]
+                    },
+                    "value": str(keys[i])
+                })
+                break
+            options.append({
+                "text": {
+                    "type": "plain_text",
+                    "text": cal[event][1]
                 },
                 "value": str(keys[i])
             }, )

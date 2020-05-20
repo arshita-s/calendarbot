@@ -48,6 +48,16 @@ event_buttons = [
                     "emoji": True
                 },
                 "value": "edit_event"
+            },
+            {
+                "type": "button",
+                "action_id": "remind",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Remind Me of an Event",
+                    "emoji": True
+                },
+                "value": "remind_user"
             }
         ]
     }
@@ -678,4 +688,149 @@ make_new_event_modal = {
             "optional": True
         }
     ]
+}
+
+reminder_modal = {
+    "type": "modal",
+    "callback_id": "reminder",
+    "title": {
+        "type": "plain_text",
+        "text": "Set a Reminder",
+        "emoji": True
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit",
+        "emoji": True
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel",
+        "emoji": True
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "block_id": "edit",
+            "element": {
+                "type": "external_select",
+                "action_id": "event-reminder",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an Event",
+                    "emoji": True
+                },
+                "min_query_length": 0
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Reminder",
+                "emoji": True
+            },
+            "optional": False
+        }
+    ]
+}
+
+set_reminder_modal = {
+    "type": "modal",
+    "callback_id": "set-reminder-time",
+    "title": {
+        "type": "plain_text",
+        "text": "Create a New Event"
+    },
+    "submit": {
+        "type": "plain_text",
+        "text": "Submit"
+    },
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel"
+    },
+    "blocks": [
+        {
+            "type": "input",
+            "block_id": "remind-date-start",
+            "element": {
+                "type": "datepicker",
+                "initial_date": current_date,
+                "action_id": "remind-date-set",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select a Date",
+                    "emoji": True
+                }
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Set Reminder Date",
+                "emoji": True
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Select a Reminder Time*"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "remind-hour",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "remind-hour-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Reminder Hour"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "remind-minute",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "remind-minute-set",
+                "max_length": 2
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Reminder Minute"
+            }
+        },
+        {
+            "type": "input",
+            "block_id": "remind-am-pm",
+            "element": {
+                "action_id": "remind-am-pm-set",
+                "type": "static_select",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "AM",
+                            "emoji": True
+                        },
+                        "value": "AM"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "PM",
+                            "emoji": True
+                        },
+                        "value": "PM"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Time of day",
+                "emoji": True
+            }
+        },
+    ]
+
 }
