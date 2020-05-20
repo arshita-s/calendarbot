@@ -368,6 +368,7 @@ def action_handler():
             return ''
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
+            print(msg_action.get('view')['state']['values'])
             key = msg_action.get('view')['state']['values']['edit']['event-edit']['selected_option']['value']
             selected_event = int(key)
             resp = {
