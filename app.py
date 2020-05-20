@@ -350,9 +350,7 @@ def action_handler():
             event_description = event[4]
             event_category = event[5]
 
-            selected = msg_action['view']['state']['values']['notify']['notify-chan']['selected_options']
-
-            if len(selected) > 0:
+            if 'selected_option' in msg_action['view']['state']['values']['notify']['notify-chan']:
                 notify = 0
             else:
                 notify = None
