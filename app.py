@@ -335,6 +335,13 @@ def action_handler():
             print(msg_action)
             event = cal.get(selected_event)
 
+            if event is None:
+                return
+
+            n_user = msg_action['user']['id']  # user id of the person who changed the event
+
+            # all else stays the same except for the new event name
+
             user_id = event[0]
             orig = event[1]
             name = msg_action['view']['state']['values']['name']['name-set']['value']
@@ -343,15 +350,24 @@ def action_handler():
             event_description = event[4]
             event_category = event[5]
 
-            cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
-            client.chat_postMessage(
-                channel=chan,
-                text=get_mention(user_id)
-                     + " has changed the name of event, " + orig + ", to "
-                     + name
-                     + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
-                     + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
-            )
+            selected = msg_action['view']['state']['values']['notify']['notify-chan']['selected_options']
+
+            if len(selected) > 0:
+                notify = 0
+            else:
+                notify = None
+
+            if notify is not None:
+                cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
+                client.chat_postMessage(
+                    channel=chan,
+                    text=get_mention(n_user)
+                         + " has changed the name of event, " + orig + ", to "
+                         + name
+                         + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
+                         + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
+                )
+            return ''
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
             print(msg_action.get('view')['state']['values'])
