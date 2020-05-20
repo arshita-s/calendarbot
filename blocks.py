@@ -83,8 +83,10 @@ event_name = {
         },
         {
             "type": "input",
+            "block_id": "notify",
             "element": {
                 "type": "checkboxes",
+                "action_id": "notify-chan",
                 "options": [
                     {
                         "text": {
@@ -100,7 +102,8 @@ event_name = {
                 "type": "plain_text",
                 "text": "Label",
                 "emoji": True
-            }
+            },
+            "optional": True
         }
     ]
 }
