@@ -430,6 +430,28 @@ def populate():
                 "value": str(keys[i])
             }, )
 
+    elif action == 'event-reminder':
+        keys = list(cal)
+        for i in range(len(keys)):
+            event = keys[i]
+
+            if i == len(cal) - 1:
+                options.append({
+                    "text": {
+                        "type": "plain_text",
+                        "text": cal[event][1]
+                    },
+                    "value": str(keys[i])
+                })
+                break
+            options.append({
+                "text": {
+                    "type": "plain_text",
+                    "text": cal[event][1]
+                },
+                "value": str(keys[i])
+            }, )
+
     # Respond with list of options
     resp = {"options": options}
     return make_response(resp, 200)
