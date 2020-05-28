@@ -268,6 +268,7 @@ def action_handler():
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
             print(cal)
+
         # After submission of new category, save the result in 'categories'
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
@@ -305,7 +306,7 @@ def action_handler():
             elif to_edit == 'End Time':
                 resp = {
                     "response_action": "push",
-                    "view": blocks.edit_ask
+                    "view": blocks.end_time
                 }
             elif to_edit == "Start Date":
                 resp = {
@@ -351,22 +352,21 @@ def action_handler():
             event_category = event[5]
 
             if 'selected_option' in msg_action['view']['state']['values']['notify']['notify-chan']:
-                notify = 0
+                notify = True
             else:
-                notify = None
+                notify = False
 
-            if notify is not None:
-                cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
+            if notify:
                 client.chat_postMessage(
                     channel=chan,
                     text=get_mention(n_user)
-                         + " has changed the name of event, " + orig + ", to "
-                         + name
+                         + " has changed the name of event, "
+                         + orig + ", to " + name
                          + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
                          + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
                 )
-            else:
-                return make_response("", 200)
+
+            cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
             print(msg_action.get('view')['state']['values'])
