@@ -268,6 +268,7 @@ def action_handler():
                      + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
             )
             print(cal)
+
         # After submission of new category, save the result in 'categories'
         elif msg_action.get("view")['callback_id'] == 'make-new-cat':
             name = msg_action.get('view')['state']['values']['name']['name-set']['value']
@@ -305,7 +306,7 @@ def action_handler():
             elif to_edit == 'End Time':
                 resp = {
                     "response_action": "push",
-                    "view": blocks.edit_ask
+                    "view": blocks.end_time
                 }
             elif to_edit == "Start Date":
                 resp = {
@@ -365,8 +366,6 @@ def action_handler():
                          + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
                          + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
                 )
-            else:
-                return make_response("", 200)
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
             print(msg_action.get('view')['state']['values'])
