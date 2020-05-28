@@ -357,16 +357,15 @@ def action_handler():
                 notify = None
 
             if notify is not None:
-                cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
-                client.chat_postMessage(
-                    channel=chan,
-                    text=get_mention(n_user)
-                         + " has changed the name of event, " + orig + ", to "
-                         + name
-                         + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
-                         + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
-                )
-            return ''
+                txt = get_mention(n_user) + " has changed the name of event, " + orig + ", to " + name + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ") + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
+            else:
+                txt = ''
+
+            cal[selected_event] = (user_id, name, start_date, end_date, event_description, event_category)
+            client.chat_postMessage(
+                channel=chan,
+                text=txt
+            )
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
             print(msg_action.get('view')['state']['values'])
