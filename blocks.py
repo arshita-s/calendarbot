@@ -737,7 +737,7 @@ set_reminder_modal = {
     "callback_id": "set-reminder-time",
     "title": {
         "type": "plain_text",
-        "text": "Create a New Event"
+        "text": "Set Reminder"
     },
     "submit": {
         "type": "plain_text",

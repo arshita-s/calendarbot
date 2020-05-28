@@ -150,7 +150,7 @@ def action_handler():
                 event_category = values['category']['event-category']['selected_option']['text']['text']
             except KeyError:
                 event_category = None
-            try:
+            try:  # TODO refactor these try/except blocks into some function
                 start_hour = int(values['start-hour']['start-hour-set']['value'])
             except ValueError:
                 response = {
@@ -378,6 +378,48 @@ def action_handler():
             }
             return resp
 
+        elif msg_action.get('view')['callback_id'] == 'set-reminder-time':
+            values = msg_action.get('view')['state']['values']
+            remind_date = values['remind-date-start']['remind-date-set']['selected_date']
+            try:
+                remind_hour = int(values['remind-hour']['remind-hour-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "remind-hour": "Invalid value"
+                    }
+                }
+                return response
+            if remind_hour not in range(1, 13):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "remind-hour": "Invalid value"
+                    }
+                }
+                return response
+            try:
+                remind_minute = int(values['remind-minute']['remind-minute-set']['value'])
+            except ValueError:
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "remind-minute": "Invalid value"
+                    }
+                }
+                return response
+            if remind_minute not in range(0, 60):
+                response = {
+                    "response_action": "errors",
+                    "errors": {
+                        "remind-minute": "Invalid value"
+                    }
+                }
+                return response
+            print(remind_date)
+            remind_date = datetime.datetime.strptime(remind_date, '%Y-%m-%d').replace(hour=remind_hour, minute=remind_minute)
+
     return make_response("", 200)
 
 
@@ -471,6 +513,9 @@ def populate():
     # Respond with list of options
     resp = {"options": options}
     return make_response(resp, 200)
+
+
+# def check_valid_time(hour, minute): TODO write this function to refactor the try/except stuff
 
 
 if __name__ == "__main__":
