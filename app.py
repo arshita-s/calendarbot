@@ -417,9 +417,8 @@ def action_handler():
                     }
                 }
                 return response
-            print(remind_date)
             remind_date = datetime.datetime.strptime(remind_date, '%Y-%m-%d').replace(hour=remind_hour, minute=remind_minute)
-
+            print("Reminder time: " + remind_date.strftime("%A %B %-d %Y %-I:%M"))
     return make_response("", 200)
 
 
