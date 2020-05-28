@@ -366,6 +366,7 @@ def action_handler():
                          + start_date.strftime(". It occurs from %A %B %-d, %Y at %-I:%M %p to ")
                          + end_date.strftime("%A %B %-d, %Y at %-I:%M %p.")
                 )
+            return ''
 
         elif msg_action.get('view')['callback_id'] == 'reminder':
             print(msg_action.get('view')['state']['values'])
