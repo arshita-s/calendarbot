@@ -197,6 +197,30 @@ start_time = {
                 "text": "Time of day",
                 "emoji": True
             }
+        },
+        {
+            "type": "input",
+            "block_id": "notify",
+            "element": {
+                "type": "checkboxes",
+                "action_id": "notify-chan",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Notify Channel",
+                            "emoji": True
+                        },
+                        "value": "notify-chan"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Label",
+                "emoji": True
+            },
+            "optional": True
         }
     ]
 }
@@ -280,6 +304,30 @@ end_time = {
                 "text": "Time of day",
                 "emoji": True
             }
+        },
+        {
+            "type": "input",
+            "block_id": "notify",
+            "element": {
+                "type": "checkboxes",
+                "action_id": "notify-chan",
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Notify Channel",
+                            "emoji": True
+                        },
+                        "value": "notify-chan"
+                    }
+                ]
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Label",
+                "emoji": True
+            },
+            "optional": True
         }
     ]
 }
